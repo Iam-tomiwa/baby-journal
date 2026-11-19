@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-18T20:55:19+00:00",
+  "title": "Design System: The family journals",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Navy Ink",
+        "canonical": "#1d2145",
+        "tonalRamp": [
+          "oklch(15% 0.027 276)",
+          "oklch(27% 0.049 276)",
+          "oklch(39% 0.067 276)",
+          "oklch(51% 0.067 276)",
+          "oklch(63% 0.067 276)",
+          "oklch(75% 0.064 276)",
+          "oklch(86% 0.044 276)",
+          "oklch(95% 0.027 276)"
+        ]
+      },
+      "ink-soft": {
+        "role": "primary",
+        "displayName": "Soft Ink",
+        "canonical": "#4a4e73",
+        "tonalRamp": [
+          "oklch(15% 0.025 279)",
+          "oklch(27% 0.045 279)",
+          "oklch(39% 0.061 279)",
+          "oklch(51% 0.061 279)",
+          "oklch(63% 0.061 279)",
+          "oklch(75% 0.058 279)",
+          "oklch(86% 0.040 279)",
+          "oklch(95% 0.025 279)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#fffdf8",
+        "tonalRamp": [
+          "oklch(15% 0.003 89)",
+          "oklch(27% 0.005 89)",
+          "oklch(39% 0.007 89)",
+          "oklch(51% 0.007 89)",
+          "oklch(63% 0.007 89)",
+          "oklch(75% 0.007 89)",
+          "oklch(86% 0.005 89)",
+          "oklch(95% 0.003 89)"
+        ]
+      },
+      "cover-fg": {
+        "role": "secondary",
+        "displayName": "Stamp Cream",
+        "canonical": "#fff6dc",
+        "tonalRamp": [
+          "oklch(15% 0.014 91)",
+          "oklch(27% 0.026 91)",
+          "oklch(39% 0.035 91)",
+          "oklch(51% 0.035 91)",
+          "oklch(63% 0.035 91)",
+          "oklch(75% 0.034 91)",
+          "oklch(86% 0.023 91)",
+          "oklch(95% 0.014 91)"
+        ]
+      },
+      "tomato": {
+        "role": "secondary",
+        "displayName": "Tomato Bookcloth",
+        "canonical": "#c43a23",
+        "tonalRamp": [
+          "oklch(15% 0.073 32)",
+          "oklch(27% 0.131 32)",
+          "oklch(39% 0.179 32)",
+          "oklch(51% 0.179 32)",
+          "oklch(63% 0.179 32)",
+          "oklch(75% 0.170 32)",
+          "oklch(86% 0.117 32)",
+          "oklch(95% 0.073 32)"
+        ]
+      },
+      "tomato-deep": {
+        "role": "secondary",
+        "displayName": "Tomato Hinge",
+        "canonical": "#9c2b18",
+        "tonalRamp": [
+          "oklch(15% 0.062 32)",
+          "oklch(27% 0.112 32)",
+          "oklch(39% 0.152 32)",
+          "oklch(51% 0.152 32)",
+          "oklch(63% 0.152 32)",
+          "oklch(75% 0.145 32)",
+          "oklch(86% 0.100 32)",
+          "oklch(95% 0.062 32)"
+        ]
+      },
+      "cobalt": {
+        "role": "secondary",
+        "displayName": "Cobalt Bookcloth",
+        "canonical": "#2f55d4",
+        "tonalRamp": [
+          "oklch(15% 0.082 266)",
+          "oklch(27% 0.147 266)",
+          "oklch(39% 0.200 266)",
+          "oklch(51% 0.200 266)",
+          "oklch(63% 0.200 266)",
+          "oklch(75% 0.191 266)",
+          "oklch(86% 0.131 266)",
+          "oklch(95% 0.082 266)"
+        ]
+      },
+      "cobalt-deep": {
+        "role": "secondary",
+        "displayName": "Cobalt Hinge",
+        "canonical": "#2242ad",
+        "tonalRamp": [
+          "oklch(15% 0.072 266)",
+          "oklch(27% 0.129 266)",
+          "oklch(39% 0.175 266)",
+          "oklch(51% 0.175 266)",
+          "oklch(63% 0.175 266)",
+          "oklch(75% 0.167 266)",
+          "oklch(86% 0.114 266)",
+          "oklch(95% 0.072 266)"
+        ]
+      },
+      "marigold": {
+        "role": "secondary",
+        "displayName": "Marigold Bookcloth",
+        "canonical": "#f0a52b",
+        "tonalRamp": [
+          "oklch(15% 0.063 74)",
+          "oklch(27% 0.113 74)",
+          "oklch(39% 0.153 74)",
+          "oklch(51% 0.153 74)",
+          "oklch(63% 0.153 74)",
+          "oklch(75% 0.146 74)",
+          "oklch(86% 0.100 74)",
+          "oklch(95% 0.063 74)"
+        ]
+      },
+      "marigold-deep": {
+        "role": "secondary",
+        "displayName": "Marigold Hinge",
+        "canonical": "#c9841a",
+        "tonalRamp": [
+          "oklch(15% 0.056 71)",
+          "oklch(27% 0.101 71)",
+          "oklch(39% 0.137 71)",
+          "oklch(51% 0.137 71)",
+          "oklch(63% 0.137 71)",
+          "oklch(75% 0.131 71)",
+          "oklch(86% 0.090 71)",
+          "oklch(95% 0.056 71)"
+        ]
+      },
+      "leaf": {
+        "role": "secondary",
+        "displayName": "Leaf Bookcloth",
+        "canonical": "#27794d",
+        "tonalRamp": [
+          "oklch(15% 0.043 156)",
+          "oklch(27% 0.078 156)",
+          "oklch(39% 0.105 156)",
+          "oklch(51% 0.105 156)",
+          "oklch(63% 0.105 156)",
+          "oklch(75% 0.101 156)",
+          "oklch(86% 0.069 156)",
+          "oklch(95% 0.043 156)"
+        ]
+      },
+      "leaf-deep": {
+        "role": "secondary",
+        "displayName": "Leaf Hinge",
+        "canonical": "#1c5d3a",
+        "tonalRamp": [
+          "oklch(15% 0.036 156)",
+          "oklch(27% 0.065 156)",
+          "oklch(39% 0.088 156)",
+          "oklch(51% 0.088 156)",
+          "oklch(63% 0.088 156)",
+          "oklch(75% 0.084 156)",
+          "oklch(86% 0.057 156)",
+          "oklch(95% 0.036 156)"
+        ]
+      },
+      "plum": {
+        "role": "secondary",
+        "displayName": "Plum Bookcloth",
+        "canonical": "#7a3f8f",
+        "tonalRamp": [
+          "oklch(15% 0.056 316)",
+          "oklch(27% 0.101 316)",
+          "oklch(39% 0.137 316)",
+          "oklch(51% 0.137 316)",
+          "oklch(63% 0.137 316)",
+          "oklch(75% 0.131 316)",
+          "oklch(86% 0.090 316)",
+          "oklch(95% 0.056 316)"
+        ]
+      },
+      "plum-deep": {
+        "role": "secondary",
+        "displayName": "Plum Hinge",
+        "canonical": "#5f2f71",
+        "tonalRamp": [
+          "oklch(15% 0.048 316)",
+          "oklch(27% 0.087 316)",
+          "oklch(39% 0.118 316)",
+          "oklch(51% 0.118 316)",
+          "oklch(63% 0.118 316)",
+          "oklch(75% 0.112 316)",
+          "oklch(86% 0.077 316)",
+          "oklch(95% 0.048 316)"
+        ]
+      },
+      "sky": {
+        "role": "tertiary",
+        "displayName": "Sky Sugar Paper",
+        "canonical": "#a9cbef",
+        "tonalRamp": [
+          "oklch(15% 0.026 250)",
+          "oklch(27% 0.046 250)",
+          "oklch(39% 0.063 250)",
+          "oklch(51% 0.063 250)",
+          "oklch(63% 0.063 250)",
+          "oklch(75% 0.060 250)",
+          "oklch(86% 0.041 250)",
+          "oklch(95% 0.026 250)"
+        ]
+      },
+      "butter": {
+        "role": "tertiary",
+        "displayName": "Butter Sugar Paper",
+        "canonical": "#f7d774",
+        "tonalRamp": [
+          "oklch(15% 0.051 92)",
+          "oklch(27% 0.091 92)",
+          "oklch(39% 0.124 92)",
+          "oklch(51% 0.124 92)",
+          "oklch(63% 0.124 92)",
+          "oklch(75% 0.118 92)",
+          "oklch(86% 0.081 92)",
+          "oklch(95% 0.051 92)"
+        ]
+      },
+      "rose": {
+        "role": "tertiary",
+        "displayName": "Rose Sugar Paper",
+        "canonical": "#f4b3ad",
+        "tonalRamp": [
+          "oklch(15% 0.031 25)",
+          "oklch(27% 0.057 25)",
+          "oklch(39% 0.077 25)",
+          "oklch(51% 0.077 25)",
+          "oklch(63% 0.077 25)",
+          "oklch(75% 0.073 25)",
+          "oklch(86% 0.050 25)",
+          "oklch(95% 0.031 25)"
+        ]
+      },
+      "mint": {
+        "role": "tertiary",
+        "displayName": "Mint Sugar Paper",
+        "canonical": "#a8d5b0",
+        "tonalRamp": [
+          "oklch(15% 0.029 150)",
+          "oklch(27% 0.051 150)",
+          "oklch(39% 0.070 150)",
+          "oklch(51% 0.070 150)",
+          "oklch(63% 0.070 150)",
+          "oklch(75% 0.067 150)",
+          "oklch(86% 0.046 150)",
+          "oklch(95% 0.029 150)"
+        ]
+      },
+      "lilac": {
+        "role": "tertiary",
+        "displayName": "Lilac Sugar Paper",
+        "canonical": "#c9b8ec",
+        "tonalRamp": [
+          "oklch(15% 0.030 300)",
+          "oklch(27% 0.055 300)",
+          "oklch(39% 0.074 300)",
+          "oklch(51% 0.074 300)",
+          "oklch(63% 0.074 300)",
+          "oklch(75% 0.071 300)",
+          "oklch(86% 0.049 300)",
+          "oklch(95% 0.030 300)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Lilac Wash",
+        "canonical": "#efeaf8",
+        "tonalRamp": [
+          "oklch(15% 0.008 302)",
+          "oklch(27% 0.014 302)",
+          "oklch(39% 0.019 302)",
+          "oklch(51% 0.019 302)",
+          "oklch(63% 0.019 302)",
+          "oklch(75% 0.019 302)",
+          "oklch(86% 0.013 302)",
+          "oklch(95% 0.008 302)"
+        ]
+      },
+      "accent-wash": {
+        "role": "neutral",
+        "displayName": "Sky Wash",
+        "canonical": "#e3ecfb",
+        "tonalRamp": [
+          "oklch(15% 0.009 261)",
+          "oklch(27% 0.017 261)",
+          "oklch(39% 0.022 261)",
+          "oklch(51% 0.022 261)",
+          "oklch(63% 0.022 261)",
+          "oklch(75% 0.021 261)",
+          "oklch(86% 0.015 261)",
+          "oklch(95% 0.009 261)"
+        ]
+      },
+      "destructive": {
+        "role": "neutral",
+        "displayName": "Brick",
+        "canonical": "#b8321c",
+        "tonalRamp": [
+          "oklch(15% 0.071 32)",
+          "oklch(27% 0.128 32)",
+          "oklch(39% 0.174 32)",
+          "oklch(51% 0.174 32)",
+          "oklch(63% 0.174 32)",
+          "oklch(75% 0.166 32)",
+          "oklch(86% 0.114 32)",
+          "oklch(95% 0.071 32)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Stamped Display",
+        "purpose": "Chapter titles, the shelf heading, the name on a cover, the date on a milestone card."
+      },
+      "headline": {
+        "displayName": "Desk Headline",
+        "purpose": "The parents' desk heading and walkthrough step titles."
+      },
+      "title": {
+        "displayName": "Inscription",
+        "purpose": "Handwritten lines under a display heading: month range, shelf line, nameplate."
+      },
+      "hand": {
+        "displayName": "Handwriting",
+        "purpose": "Print captions, milestone titles, note slips, cassette labels."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Desk copy, reader story text, form values."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, index tabs, corner links; buttons use the same weight at 1rem."
+      }
+    },
+    "shadows": [
+      {
+        "name": "print",
+        "value": "0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5)",
+        "purpose": "Anything lying on a sheet: prints, date cards, note slips, cassettes, desktop index tabs."
+      },
+      {
+        "name": "lifted",
+        "value": "0 2px 3px rgb(29 33 69 / 0.16), 0 26px 40px -18px rgb(29 33 69 / 0.6)",
+        "purpose": "Something picked up: the print in the reader, the page block under a shelf book."
+      },
+      {
+        "name": "tape",
+        "value": "0 1px 2px rgb(29 33 69 / 0.18)",
+        "purpose": "Washi tape only."
+      },
+      {
+        "name": "sticker",
+        "value": "drop-shadow(0 3px 3px rgb(29 33 69 / 0.3))",
+        "purpose": "Filter shadow following a sticker's die-cut outline."
+      },
+      {
+        "name": "cover-board",
+        "value": "14px 10px 30px -12px rgb(29 33 69 / 0.6)",
+        "purpose": "The swinging cover over the page beneath."
+      }
+    ],
+    "motion": [
+      {
+        "name": "settle",
+        "value": "spring(stiffness 300, damping 26, mass 0.9)",
+        "purpose": "Shared default: how things settle onto a page. Entries stagger 70ms across a row."
+      },
+      {
+        "name": "slap",
+        "value": "spring(stiffness 420, damping 16)",
+        "purpose": "Stickers landing, 250 to 350ms after their entry."
+      },
+      {
+        "name": "shelf",
+        "value": "spring(stiffness 240, damping 22)",
+        "purpose": "Books arriving on the shelf, 80ms apart."
+      },
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Button press and hover scale (150 to 200ms), tape press (220ms), walkthrough page slide (260ms), tab slide (300ms)."
+      },
+      {
+        "name": "cover-open",
+        "value": "1.15s cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "Button-driven scroll that swings the cover from 0 to -96deg on its spine; otherwise scroll-linked."
+      },
+      {
+        "name": "reel",
+        "value": "2.4s linear infinite",
+        "purpose": "Cassette reels while a song plays; motion-safe only."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "MotionConfig reducedMotion=user",
+        "purpose": "Everything rests in place; the cover is a static first screen."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled action per form or empty state.",
+      "html": "<button class=\"ds-btn-primary\">Stick it in the journal</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: 0 1.75rem; border: 0; border-radius: 9999px; background: #1d2145; color: #fffdf8; font: 600 1rem var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-primary:hover { transform: scale(1.03); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 3px solid #2f55d4; outline-offset: 3px; }"
+    },
+    {
+      "name": "Cover Button",
+      "kind": "button",
+      "refersTo": "button-cover",
+      "description": "The single action stamped on a cloth cover; text takes the cloth colour.",
+      "html": "<div class=\"ds-cover-swatch\"><button class=\"ds-btn-cover\">Open the journal <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14\"/><path d=\"m19 12-7 7-7-7\"/></svg></button></div>",
+      "css": ".ds-cover-swatch { padding: 1.5rem; background: #c43a23; display: inline-block; } .ds-btn-cover { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 3rem; padding: 0 1.5rem; border: 0; border-radius: 9999px; background: #fff6dc; color: #c43a23; font: 600 1rem var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-cover:hover { transform: scale(1.04); } .ds-btn-cover:active { transform: scale(0.97); } .ds-btn-cover:focus-visible { outline: 3px solid #2f55d4; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary actions on the desk, such as locking it or keeping an entry.",
+      "html": "<button class=\"ds-btn-outline\">Lock the desk</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border: 2px solid #1d2145; border-radius: 9999px; background: transparent; color: #1d2145; font: 600 0.875rem var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-btn-outline:hover { background: #1d2145; color: #fffdf8; } .ds-btn-outline:focus-visible { outline: 3px solid #2f55d4; outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Desk form field: label above, hint below in soft ink.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-caption\">Caption</label><input id=\"ds-caption\" class=\"ds-input\" placeholder=\"Ten tiny toes\"><p class=\"ds-field-hint\">Written under the photo in your handwriting.</p></div>",
+      "css": ".ds-field { display: grid; gap: 0.5rem; max-width: 22rem; font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; } .ds-field-label { font-size: 0.875rem; font-weight: 600; color: #1d2145; } .ds-input { height: 3rem; padding: 0 0.875rem; border: 1px solid rgb(29 33 69 / 0.42); border-radius: 1.225rem; background: #fffdf8; color: #1d2145; font: 400 1rem var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; caret-color: #2f55d4; } .ds-input::placeholder { color: #4a4e73; } .ds-input:focus-visible { outline: 3px solid #2f55d4; outline-offset: 3px; } .ds-field-hint { margin: 0; font-size: 0.875rem; color: #4a4e73; }"
+    },
+    {
+      "name": "Index Tabs",
+      "kind": "nav",
+      "refersTo": "index-tab",
+      "description": "Chapter tabs sticking out of the book's right edge; the current one turns ink and pulls out.",
+      "html": "<ol class=\"ds-tabs\"><li><a class=\"ds-tab\" style=\"background:#a9cbef\" href=\"#\">New</a></li><li><a class=\"ds-tab ds-tab-current\" href=\"#\" aria-current=\"true\">1 mo</a></li><li><a class=\"ds-tab\" style=\"background:#f4b3ad\" href=\"#\">2 mo</a></li><li><a class=\"ds-tab ds-tab-album\" href=\"#\">Songs</a></li></ol>",
+      "css": ".ds-tabs { list-style: none; margin: 0; padding: 0.25rem 0 0.25rem 1rem; display: flex; flex-direction: column; align-items: flex-end; gap: 0.375rem; width: 8rem; } .ds-tab { display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0 1.25rem 0 1rem; border: 2px solid #1d2145; border-right: 0; border-radius: 9999px 0 0 9999px; background: #f7d774; color: #1d2145; font: 600 0.875rem var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; text-decoration: none; white-space: nowrap; box-shadow: 0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5); transition: padding 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms, color 200ms; } .ds-tab:hover { padding-left: 1.5rem; } .ds-tab-current, .ds-tab-current:hover { background: #1d2145; color: #fffdf8; padding-left: 2.25rem; } .ds-tab-album { background: #1d2145; border-color: #f7d774; color: #f7d774; } .ds-tab:focus-visible { outline: 3px solid #2f55d4; outline-offset: 3px; }"
+    },
+    {
+      "name": "Child Picker Chip",
+      "kind": "chip",
+      "refersTo": "button-outline",
+      "description": "Radio pill with a dot in the child's cover colour; fills ink when chosen.",
+      "html": "<div class=\"ds-chips\"><span class=\"ds-chip ds-chip-on\"><span class=\"ds-chip-dot\" style=\"background:#c43a23\"></span>Zuri</span><span class=\"ds-chip\"><span class=\"ds-chip-dot\" style=\"background:#2f55d4\"></span>Tobi</span></div>",
+      "css": ".ds-chips { display: flex; gap: 0.5rem; } .ds-chip { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0 1rem; border: 2px solid #1d2145; border-radius: 9999px; color: #1d2145; font: 600 1rem var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-chip-on { background: #1d2145; color: #fffdf8; } .ds-chip-dot { width: 0.875rem; height: 0.875rem; border-radius: 9999px; box-shadow: 0 0 0 2px #fffdf8; }"
+    },
+    {
+      "name": "Print Frame",
+      "kind": "card",
+      "refersTo": "print-frame",
+      "description": "White-bordered print with a handwritten caption, taped to a sugar-paper sheet at a slight tilt.",
+      "html": "<div class=\"ds-sheet\"><figure class=\"ds-print\"><span class=\"ds-tape\"></span><div class=\"ds-print-img\"></div><figcaption class=\"ds-print-cap\">The three of us</figcaption></figure></div>",
+      "css": ".ds-sheet { padding: 2.5rem; background-color: #a8d5b0; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.13 0 0 0 0 0.27 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E\"); } .ds-print { position: relative; margin: 0; width: 13rem; padding: 0.625rem 0.625rem 0.75rem; border-radius: 3px; background: #fffdf8; box-shadow: 0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5); transform: rotate(-2.4deg); transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-print:hover { transform: rotate(0) scale(1.03) translateY(-6px); } .ds-print-img { aspect-ratio: 4 / 5; border-radius: 2px; background: rgb(29 33 69 / 0.1); } .ds-print-cap { padding: 0.5rem 0.25rem 0; font: 400 1.3rem/1.15 var(--font-gochi), 'Comic Sans MS', cursive; color: #1d2145; } .ds-tape { position: absolute; top: -0.75rem; right: 10%; z-index: 1; width: 5rem; height: 1.5rem; transform: rotate(6deg); background-color: color-mix(in oklab, #2f55d4 78%, transparent); background-image: repeating-linear-gradient(115deg, rgb(255 255 255 / 0.28) 0 5px, transparent 5px 11px); box-shadow: 0 1px 2px rgb(29 33 69 / 0.18); }"
+    },
+    {
+      "name": "Date Card",
+      "kind": "card",
+      "refersTo": "milestone-card",
+      "description": "A first, on a rounded square in one of the five tones with its paired foreground.",
+      "html": "<article class=\"ds-datecard\"><div class=\"ds-datecard-top\"><span>10 weeks old</span><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2\"/><path d=\"M9 9h.01\"/><path d=\"M15 9h.01\"/></svg></div><div><p class=\"ds-datecard-date\">Apr 14</p><h3 class=\"ds-datecard-title\">First smile</h3></div></article>",
+      "css": ".ds-datecard { display: flex; flex-direction: column; justify-content: space-between; width: 15rem; aspect-ratio: 1; padding: 1.35rem; border-radius: 1.6rem; background: #27794d; color: #fff6dc; box-shadow: 0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5); transform: rotate(1.8deg); } .ds-datecard-top { display: flex; justify-content: space-between; align-items: flex-start; font: 500 1rem/1.25 var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; } .ds-datecard-date { margin: 0; font: 400 3.75rem/0.95 var(--font-caprasimo), ui-serif, Georgia, serif; } .ds-datecard-title { margin: 0.6rem 0 0; font: 400 1.6rem/1.05 var(--font-gochi), 'Comic Sans MS', cursive; }"
+    },
+    {
+      "name": "Note Slip",
+      "kind": "card",
+      "refersTo": "note-slip",
+      "description": "A written note on ruled paper; the handwriting sits on a 1.75rem rule.",
+      "html": "<article class=\"ds-note\"><p class=\"ds-note-body\">You laughed at the dog for ten whole minutes today.</p><p class=\"ds-note-foot\"><span>2 June 2026</span><span class=\"ds-note-sign\">Love, Mum</span></p></article>",
+      "css": ".ds-note { width: 20rem; padding: 2.15rem 1.25rem 1rem; background-color: #fffdf8; background-image: repeating-linear-gradient(to bottom, transparent 0 calc(1.75rem - 1px), rgb(47 85 212 / 0.28) calc(1.75rem - 1px) 1.75rem); background-position: 0 0.4rem; box-shadow: 0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5); transform: rotate(-1.5deg); font-family: var(--font-gochi), 'Comic Sans MS', cursive; } .ds-note-body { margin: 0; font-size: 1.3rem; line-height: 1.75rem; color: #1d2145; } .ds-note-foot { display: flex; justify-content: space-between; gap: 0.75rem; margin: 1.75rem 0 0; font-size: 1.15rem; line-height: 1.75rem; color: #4a4e73; } .ds-note-sign { color: #1d2145; }"
+    },
+    {
+      "name": "Cassette",
+      "kind": "custom",
+      "refersTo": "cassette",
+      "description": "A song on the mixtape: tone-coloured body, handwritten paper label, two reels in an ink window.",
+      "html": "<div class=\"ds-album\"><span class=\"ds-cassette\"><span class=\"ds-cassette-label\"><span class=\"ds-cassette-title\">Here Comes the Sun</span><span class=\"ds-cassette-src\">YouTube</span></span><span class=\"ds-cassette-window\"><svg class=\"ds-reel\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><path d=\"M12 2v6M3.3 17l5.2-3M20.7 17l-5.2-3\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"/></svg><svg class=\"ds-reel\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><path d=\"M12 2v6M3.3 17l5.2-3M20.7 17l-5.2-3\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"/></svg></span></span></div>",
+      "css": ".ds-album { padding: 2rem; background: #1d2145; display: inline-block; } .ds-cassette { display: flex; flex-direction: column; width: 15rem; aspect-ratio: 1.38; padding: 0.75rem; border-radius: 1.575rem; background: #c43a23; box-shadow: 0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5); transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-cassette:hover { transform: translateY(-4px) rotate(-1deg); } .ds-cassette-label { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 0.5rem 0.75rem; border-radius: 0.875rem; background: #fffdf8; color: #1d2145; } .ds-cassette-title { font: 400 1.3rem/1.08 var(--font-gochi), 'Comic Sans MS', cursive; } .ds-cassette-src { font: 600 0.7rem/1 var(--font-schibsted), ui-sans-serif, system-ui, sans-serif; } .ds-cassette-window { display: flex; align-items: center; justify-content: space-between; width: 64%; height: 24%; margin: 5% auto 0; padding: 0 7%; border-radius: 9999px; background: #1d2145; color: #fffdf8; } .ds-reel { height: 62%; aspect-ratio: 1; } @media (prefers-reduced-motion: no-preference) { .ds-cassette:hover .ds-reel { animation: ds-reel 2.4s linear infinite; } } @keyframes ds-reel { to { rotate: 360deg; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Book on the Shelf",
+    "overview": "The browser window is a cloth-bound baby journal. A journal's first screen is its closed cover in the child's colour; scrolling swings that cover open on its spine, and everything after is sheets of coloured sugar paper, one per age, with prints taped down by hand. Every surface is a named material: bookcloth, sugar paper, white print stock, washi tape, die-cut sticker vinyl, ruled note paper, an endpaper of dots, a navy album page of cassettes. All of it is drawn in code. The textures are procedural SVG noise and gradients, and the only rasters are the family's own photographs.\n\nThe mood is loud, warm and handmade: saturated colour at full bleed, chunky stamped lettering, handwriting wherever the book is written in, and nothing lined up quite straight. Density is low. A sheet holds a handful of things with generous paper around them, and a sheet with only one or two entries gives them more room and alternates sides, the way a hand-filled album does.\n\nMotion follows one grammar: things are placed, not faded. Prints arrive a little high and turned, then settle on a spring; tape presses down after them; stickers are slapped on with a bounce; opening a print lifts that same print off the page into the reader. The parents' desk is the same world at lower volume: plain paper, navy ink, pill controls, and a live preview of the entry on the sheet it will land on.",
+    "keyCharacteristics": [
+      "Full-bleed coloured surfaces; no neutral page chrome anywhere in the reading experience.",
+      "Three typefaces with fixed jobs: stamped display, handwriting, and a plain grotesk for controls.",
+      "Navy ink for all text, borders and shadows. There is no grey and no black.",
+      "Deterministic hand-placement: each entry's tilt, nudge, tape side and tape colour are seeded from its id, so the page looks arranged by hand and renders identically every time.",
+      "Pills for anything pressed; near-square corners for anything made of paper.",
+      "Light theme only."
+    ],
+    "rules": [
+      {
+        "name": "The Navy Ink Rule",
+        "body": "Text, outlines and shadows are navy (`ink`), at full strength or as a transparency of it. Grey and black do not appear.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paired Foreground Rule",
+        "body": "A cloth or tone never sets its own text colour. It carries a foreground with it: cream on tomato, cobalt, leaf and plum; ink on marigold. Ink on those four saturated cloths fails contrast (below 3:1), and cream on marigold fails worse (1.9:1).",
+        "section": "colors"
+      },
+      {
+        "name": "The Soft Ink Stays on Paper Rule",
+        "body": "`ink-soft` is for paper and the lilac wash. On rose and lilac sheets it drops to about 4.4:1, so text on sugar paper is full ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Voices Rule",
+        "body": "Caprasimo is stamped or printed on the book. Gochi Hand is written in the book by a person: captions, firsts, notes, inscriptions. Schibsted Grotesk is the app speaking: controls, hints, system copy. A control is never set in the hand, and a caption is never set in the grotesk.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruled Line Rule",
+        "body": "Handwriting on ruled paper locks to the 1.75rem rule: line-height, the gap before the sign-off and the top offset are all multiples of it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lying Flat Rule",
+        "body": "A shadow says how far a thing is off the paper. Resting things take the print shadow, held things the lifted one. Shadows are never decoration and never coloured anything but ink.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Placed, Not Faded Rule",
+        "body": "Entrances are physical. An entry arrives 30px high, 5 degrees over-turned and 6% large, then settles on the shared spring (stiffness 300, damping 26, mass 0.9), staggered 70ms across a row. Tape presses on 280ms later, scaling down from 150%. Stickers land last on a bouncier spring (stiffness 420, damping 16). Only transform and opacity animate. With reduced motion, or before the animation engine loads, everything rests in place and the cover becomes a static first screen.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every piece of text in `ink`, or in the foreground paired with its cloth: cream on tomato, cobalt, leaf and plum, ink on marigold.",
+      "Do give each chapter the next sheet in the order sky, butter, rose, mint, lilac, and cut it from the one above with the pinked edge.",
+      "Do tilt anything lying on a sheet between 1.2 and 3.6 degrees, seeded from its id so server and client agree.",
+      "Do tape photos, videos and notes down with one washi strip in a tone colour. Date cards are not taped.",
+      "Do keep hit areas at 2.75rem or more and every pressed control a pill or a circle.",
+      "Do bring things in by placing them: transform and opacity only, on the shared settle spring, once per element.",
+      "Do show a parent the entry on its real sheet colour before they add it.",
+      "Do build new materials procedurally (SVG filters, gradients, masks). The only rasters are photographs.",
+      "Do honour reduced motion with a fully laid-out, still page."
+    ],
+    "donts": [
+      "Don't use grey or black for text, borders or shadows. Use ink or a transparency of it.",
+      "Don't lay entries out as an equal-card photo grid. Spans follow what the entry is and how full the sheet is.",
+      "Don't put the whole product on cream paper. Paper is for prints, slips and the desk; the journal's pages are coloured.",
+      "Don't set controls or system copy in Gochi Hand, or captions and notes in Schibsted Grotesk.",
+      "Don't use `ink-soft` on sugar-paper sheets.",
+      "Don't add a dark theme, glows, blurs or gradient fills. Colour is flat and depth is a short navy shadow.",
+      "Don't let parents choose stickers. They are dealt by the book."
+    ]
+  }
+}

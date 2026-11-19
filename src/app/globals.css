@@ -1,26 +1,330 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-caprasimo), ui-serif, Georgia, serif;
+  --font-hand: var(--font-gochi), "Comic Sans MS", cursive;
+  --font-heading: var(--font-sans);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-cover: var(--cover);
+  --color-cover-deep: var(--cover-deep);
+  --color-cover-fg: var(--cover-fg);
+  --color-tone: var(--tone);
+  --color-tone-fg: var(--tone-fg);
+  --color-tomato: #c43a23;
+  --color-cobalt: #2f55d4;
+  --color-marigold: #f0a52b;
+  --color-leaf: #27794d;
+  --color-plum: #7a3f8f;
+  --color-sky: #a9cbef;
+  --color-butter: #f7d774;
+  --color-rose: #f4b3ad;
+  --color-mint: #a8d5b0;
+  --color-lilac: #c9b8ec;
+  --shadow-print:
+    0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5);
+  --shadow-lifted:
+    0 2px 3px rgb(29 33 69 / 0.16), 0 26px 40px -18px rgb(29 33 69 / 0.6);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --ink: #1d2145;
+  --ink-soft: #4a4e73;
+  --paper: #fffdf8;
+  --sheet: #f7d774;
+  --cover: #c43a23;
+  --cover-deep: #9c2b18;
+  --cover-fg: #fff6dc;
+  --tone: #c43a23;
+  --tone-fg: #fff6dc;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: #f7d774;
+  --secondary-foreground: var(--ink);
+  --muted: #efeaf8;
+  --muted-foreground: var(--ink-soft);
+  --accent: #e3ecfb;
+  --accent-foreground: var(--ink);
+  --destructive: #b8321c;
+  --border: rgb(29 33 69 / 0.18);
+  --input: rgb(29 33 69 / 0.42);
+  --ring: #2f55d4;
+  --radius: 0.875rem;
+}
+
+/* The five bookcloths a journal can be bound in. */
+[data-cover="tomato"] {
+  --cover: #c43a23;
+  --cover-deep: #9c2b18;
+  --cover-fg: #fff6dc;
+}
+[data-cover="cobalt"] {
+  --cover: #2f55d4;
+  --cover-deep: #2242ad;
+  --cover-fg: #fff6dc;
+}
+[data-cover="marigold"] {
+  --cover: #f0a52b;
+  --cover-deep: #c9841a;
+  --cover-fg: #1d2145;
+}
+[data-cover="leaf"] {
+  --cover: #27794d;
+  --cover-deep: #1c5d3a;
+  --cover-fg: #fff6dc;
+}
+[data-cover="plum"] {
+  --cover: #7a3f8f;
+  --cover-deep: #5f2f71;
+  --cover-fg: #fff6dc;
+}
+
+/* Sugar-paper sheets, one per chapter. */
+[data-sheet="sky"] {
+  --sheet: #a9cbef;
+}
+[data-sheet="butter"] {
+  --sheet: #f7d774;
+}
+[data-sheet="rose"] {
+  --sheet: #f4b3ad;
+}
+[data-sheet="mint"] {
+  --sheet: #a8d5b0;
+}
+[data-sheet="lilac"] {
+  --sheet: #c9b8ec;
+}
+[data-sheet="album"] {
+  --sheet: #1d2145;
+}
+
+/* Date cards, cassettes and tape share these. */
+[data-tone="tomato"] {
+  --tone: #c43a23;
+  --tone-fg: #fff6dc;
+}
+[data-tone="cobalt"] {
+  --tone: #2f55d4;
+  --tone-fg: #fff6dc;
+}
+[data-tone="marigold"] {
+  --tone: #f0a52b;
+  --tone-fg: #1d2145;
+}
+[data-tone="leaf"] {
+  --tone: #27794d;
+  --tone-fg: #fff6dc;
+}
+[data-tone="plum"] {
+  --tone: #7a3f8f;
+  --tone-fg: #fff6dc;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scrollbar-color: var(--ink) transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    caret-color: var(--color-cobalt);
+  }
+  ::selection {
+    background: var(--ink);
+    color: var(--color-butter);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 3px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 0.08em;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Paper tooth: one small tiled noise image, never animated. */
+  .sheet {
+    background-color: var(--sheet);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.13 0 0 0 0 0.27 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Bookcloth: two directions of stretched noise, like warp and weft, laid over the cloth colour. */
+  .bookcloth {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--cover);
+  }
+  /* Grey threads, lighter and darker than mid-grey, overlaid so the cloth keeps its own colour. */
+  .bookcloth::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.85' numOctaves='2' seed='3' stitchTiles='stitch' result='a'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85 0.02' numOctaves='2' seed='8' stitchTiles='stitch' result='b'/%3E%3CfeComposite in='a' in2='b' operator='arithmetic' k2='0.5' k3='0.5'/%3E%3CfeColorMatrix values='2.6 2.6 2.6 0 -3.4 2.6 2.6 2.6 0 -3.4 2.6 2.6 2.6 0 -3.4 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23w)'/%3E%3C/svg%3E");
+    /* Finer thread on small covers (shelf, previews), full size on the open window. */
+    background-size: clamp(80px, 55cqi, 240px);
+    mix-blend-mode: overlay;
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  /* Hand stitching: thread of slightly uneven length between needle holes, tinted by `color`. */
+  .stitches {
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='96'%3E%3Cg stroke='%23000' stroke-width='2.3' stroke-linecap='round'%3E%3Cpath d='M5 4 5.6 17M4.6 28 5 42M5.4 52 4.4 65M5 76 5.5 90'/%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='5' cy='2.5' r='1.7'/%3E%3Ccircle cx='5.6' cy='19' r='1.7'/%3E%3Ccircle cx='4.6' cy='26.5' r='1.7'/%3E%3Ccircle cx='5' cy='43.5' r='1.7'/%3E%3Ccircle cx='5.4' cy='50.5' r='1.7'/%3E%3Ccircle cx='4.4' cy='66.5' r='1.7'/%3E%3Ccircle cx='5' cy='74.5' r='1.7'/%3E%3Ccircle cx='5.5' cy='91.5' r='1.7'/%3E%3C/g%3E%3C/svg%3E")
+      center top / 10px 96px repeat-y;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='96'%3E%3Cg stroke='%23000' stroke-width='2.3' stroke-linecap='round'%3E%3Cpath d='M5 4 5.6 17M4.6 28 5 42M5.4 52 4.4 65M5 76 5.5 90'/%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='5' cy='2.5' r='1.7'/%3E%3Ccircle cx='5.6' cy='19' r='1.7'/%3E%3Ccircle cx='4.6' cy='26.5' r='1.7'/%3E%3Ccircle cx='5' cy='43.5' r='1.7'/%3E%3Ccircle cx='5.4' cy='50.5' r='1.7'/%3E%3Ccircle cx='4.4' cy='66.5' r='1.7'/%3E%3Ccircle cx='5' cy='74.5' r='1.7'/%3E%3Ccircle cx='5.5' cy='91.5' r='1.7'/%3E%3C/g%3E%3C/svg%3E")
+      center top / 10px 96px repeat-y;
+  }
+
+  /* The fore-edge of a closed book: a stack of page edges. */
+  .pageblock {
+    background-color: var(--paper);
+    background-image: repeating-linear-gradient(
+      var(--page-dir, 90deg),
+      rgb(29 33 69 / 0.22) 0 1px,
+      transparent 1px 3px
+    );
+  }
+
+  /* The edge left by pinking shears, cut into the top of a sheet. */
+  .pinked::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 100%;
+    height: 10px;
+    background:
+      linear-gradient(135deg, transparent 50%, var(--sheet) 50.5%) 0 0 / 20px
+        10px repeat-x,
+      linear-gradient(225deg, transparent 50%, var(--sheet) 50.5%) 10px 0 / 20px
+        10px repeat-x;
+    pointer-events: none;
+  }
+
+  .endpaper {
+    background-color: color-mix(in oklab, var(--cover) 16%, var(--paper));
+    background-image: radial-gradient(
+      circle at center,
+      color-mix(in oklab, var(--cover) 55%, transparent) 0 3.5px,
+      transparent 4px
+    );
+    background-size: 30px 30px;
+  }
+
+  .ruled {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 calc(1.75rem - 1px),
+      rgb(47 85 212 / 0.28) calc(1.75rem - 1px) 1.75rem
+    );
+    background-position: 0 0.4rem;
+  }
+
+  .washi {
+    background-color: color-mix(in oklab, var(--tone) 78%, transparent);
+    background-image: repeating-linear-gradient(
+      115deg,
+      rgb(255 255 255 / 0.28) 0 5px,
+      transparent 5px 11px
+    );
+    box-shadow: 0 1px 2px rgb(29 33 69 / 0.18);
+  }
+}
+
+/* Entries are server-rendered in their "about to be placed" state. Until the animation
+   engine has loaded (or if it never does) show them resting on the page instead. */
+html:not([data-motion]) [data-placed] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* The index tabs step aside while a print is open in the reader. */
+html[data-reader] nav[aria-label="Chapters"] {
+  visibility: hidden;
+}
+
+/* At thumbnail size the weave would read as plaid; let it recede to a hint. */
+@container (max-width: 9rem) {
+  .bookcloth::before {
+    opacity: 0.22;
+  }
+}
+
+@keyframes reel {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
