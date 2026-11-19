@@ -1,15 +1,16 @@
 "use client";
 
-import { Music, X } from "lucide-react";
+import { Music, Pause, Play, X } from "lucide-react";
 import { useMotionValueEvent, useScroll } from "motion/react";
 import * as m from "motion/react-m";
 import { useEffect, useId, useRef, useState } from "react";
 import { TONES } from "@/lib/palette";
-import { parseSongUrl } from "@/lib/songs";
+import { providerLabel } from "@/lib/songs";
 import type { Song } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { JOURNAL_OPENED } from "./cover-opening";
 import { SongPlayer } from "./song-player";
+import { useSongEngine } from "./use-song-engine";
 
 function Reel({ spinning }: { spinning: boolean }) {
   return (
@@ -107,10 +108,20 @@ function Equaliser() {
   );
 }
 
+function clock(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const whole = Math.floor(seconds);
+  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
+}
+
 /**
  * The journal's songs, kept one tap away: a floating button that opens the
  * mixtape as a small panel of tapes. A song keeps playing after the panel is
- * closed, because the player stays mounted and is only hidden.
+ * closed, because the players stay mounted and are only hidden.
+ *
+ * Opening the journal starts the first song. Browsers only allow sound after a
+ * tap, click or key press, so if the reader scrolled the cover open without
+ * touching anything yet, the song starts on their first tap instead.
  */
 export function Mixtape({
   songs,
@@ -123,35 +134,52 @@ export function Mixtape({
   const root = useRef<HTMLDivElement>(null);
   const [shown, setShown] = useState(false);
   const [open, setOpen] = useState(false);
-  const [playingId, setPlayingId] = useState<string | null>(null);
-  const playing = songs.find((song) => song.id === playingId) ?? null;
+  const audioEl = useRef<HTMLAudioElement>(null);
+  const spotifyHost = useRef<HTMLDivElement>(null);
+  const engine = useSongEngine(songs, { audio: audioEl, spotifyHost });
+  const { current, first, playing, progress } = engine;
   const { scrollY } = useScroll();
 
-  // Opening the journal starts the first song, once per visit. Scrolling the
-  // cover open counts too, though browsers only allow sound after a tap or click.
+  // Start the first song once per visit, as soon as the browser will allow sound.
   const autoStarted = useRef(false);
-  const firstSongId = songs[0]?.id ?? null;
-  function startFirstSong() {
-    if (autoStarted.current || !firstSongId) return;
-    autoStarted.current = true;
-    setPlayingId((current) => current ?? firstSongId);
-  }
+  const startFirst = useRef<() => void>(() => undefined);
+  const live = useRef({ playing, currentId: current?.id ?? null });
+  useEffect(() => {
+    live.current = { playing, currentId: current?.id ?? null };
+    startFirst.current = () => {
+      if (autoStarted.current || !first) return;
+      autoStarted.current = true;
+      // The reader may have picked something themselves in the meantime.
+      if (!live.current.currentId) engine.play(first);
+
+      // If the browser refused (no tap yet, or a stricter policy), the reader's
+      // first tap, click or key press anywhere starts it instead.
+      const events = ["click", "touchend", "keydown"] as const;
+      const onFirstTouch = () => {
+        events.forEach((name) =>
+          window.removeEventListener(name, onFirstTouch, true),
+        );
+        const { playing: isPlaying, currentId } = live.current;
+        if (!isPlaying && (currentId === null || currentId === first.id))
+          engine.play(first);
+      };
+      events.forEach((name) =>
+        window.addEventListener(name, onFirstTouch, true),
+      );
+    };
+  });
 
   useEffect(() => {
-    const onOpened = () => {
-      if (autoStarted.current || !firstSongId) return;
-      autoStarted.current = true;
-      setPlayingId((current) => current ?? firstSongId);
-    };
+    const onOpened = () => startFirst.current();
     window.addEventListener(JOURNAL_OPENED, onOpened);
     return () => window.removeEventListener(JOURNAL_OPENED, onOpened);
-  }, [firstSongId]);
+  }, []);
 
   // Like the index tabs, it waits until the cover has been opened.
   useMotionValueEvent(scrollY, "change", (y) => {
     const next = y > window.innerHeight * 1.05;
-    setShown((current) => (current === next ? current : next));
-    if (next) startFirstSong();
+    setShown((value) => (value === next ? value : next));
+    if (next) startFirst.current();
   });
 
   // Close on Escape or a press anywhere outside.
@@ -171,7 +199,8 @@ export function Mixtape({
     };
   }, [open]);
 
-  const visible = shown || open || playing !== null;
+  const visible = shown || open || current !== null;
+  const provider = current?.embed.provider ?? null;
 
   return (
     <div
@@ -180,9 +209,10 @@ export function Mixtape({
       inert={!visible}
       className={cn(
         "fixed bottom-[calc(4.75rem+env(safe-area-inset-bottom))] right-4 z-40 flex flex-col items-end gap-3 transition-[opacity,translate] duration-300 ease-out-expo lg:bottom-6 lg:right-6",
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-6 opacity-0",
+        // The wrapper spans the closed panel's box, so it must never catch taps itself;
+        // only the button and the open panel do.
+        "pointer-events-none",
+        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
       )}
     >
       <m.section
@@ -203,7 +233,7 @@ export function Mixtape({
         }
         className={cn(
           "sheet flex max-h-[min(34rem,calc(100svh-11rem))] w-[min(22rem,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-3xl text-paper shadow-lifted",
-          open ? null : "pointer-events-none",
+          open ? "pointer-events-auto" : "pointer-events-none",
         )}
       >
         <header className="flex items-start justify-between gap-3 px-5 pb-3 pt-5">
@@ -225,33 +255,80 @@ export function Mixtape({
           </button>
         </header>
 
-        {playing ? (
-          <div className="px-5 pb-3">
+        {/* The players. All three stay in the page so sound survives the panel closing. */}
+        <div className={cn("px-5", current ? "pb-3" : null)}>
+          {/* Spotify builds its own audio player inside this element. */}
+          <div
+            ref={spotifyHost}
+            className={cn(
+              "overflow-hidden rounded-xl",
+              provider === "spotify" ? null : "hidden",
+            )}
+          />
+
+          <audio ref={audioEl} {...engine.audioEvents} className="hidden" />
+          {current && provider === "audio" ? (
+            <div className="flex items-center gap-3 rounded-2xl bg-paper/10 p-3">
+              <button
+                type="button"
+                onClick={() => engine.toggle(current)}
+                aria-label={
+                  playing ? `Pause ${current.title}` : `Play ${current.title}`
+                }
+                className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-butter text-ink transition-transform duration-150 ease-out-expo hover:scale-105 active:scale-95"
+              >
+                {playing ? (
+                  <Pause aria-hidden="true" className="size-5 fill-current" />
+                ) : (
+                  <Play
+                    aria-hidden="true"
+                    className="size-5 translate-x-px fill-current"
+                  />
+                )}
+              </button>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-hand text-[1.15rem] leading-tight">
+                  {current.title}
+                </p>
+                <input
+                  type="range"
+                  min={0}
+                  max={progress.duration || 0}
+                  step={1}
+                  value={Math.min(progress.position, progress.duration || 0)}
+                  onChange={(event) => engine.seek(Number(event.target.value))}
+                  aria-label="Position in the recording"
+                  className="mt-1.5 block h-1.5 w-full cursor-pointer accent-butter"
+                />
+                <p className="mt-1 text-xs font-semibold tabular-nums text-butter">
+                  {clock(progress.position)} / {clock(progress.duration)}
+                </p>
+              </div>
+            </div>
+          ) : null}
+
+          {current && provider === "youtube" ? (
             <SongPlayer
-              key={playing.id}
-              url={playing.url}
-              title={playing.title}
+              key={current.id}
+              url={current.url}
+              title={current.title}
               autoplay
             />
-          </div>
-        ) : null}
+          ) : null}
+        </div>
 
         <ul className="grid gap-1 overflow-y-auto overscroll-contain px-3 pb-4">
-          {songs.map((song, i) => {
-            const current = song.id === playingId;
-            const provider =
-              parseSongUrl(song.url)?.provider === "spotify"
-                ? "Spotify"
-                : "YouTube";
+          {engine.playable.map((song, i) => {
+            const selected = song.id === current?.id;
             return (
               <li key={song.id}>
                 <button
                   type="button"
-                  onClick={() => setPlayingId(song.id)}
-                  aria-pressed={current}
+                  onClick={() => engine.toggle(song)}
+                  aria-pressed={selected}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-2xl p-2 text-left transition-colors duration-150",
-                    current ? "bg-paper/15" : "hover:bg-paper/10",
+                    selected ? "bg-paper/15" : "hover:bg-paper/10",
                   )}
                 >
                   <span className="w-[4.5rem] shrink-0">
@@ -259,7 +336,7 @@ export function Mixtape({
                       title=""
                       provider=""
                       tone={TONES[i % TONES.length]}
-                      spinning={current}
+                      spinning={selected && playing}
                       bare
                     />
                   </span>
@@ -268,7 +345,11 @@ export function Mixtape({
                       {song.title}
                     </span>
                     <span className="mt-0.5 block text-xs font-semibold text-butter">
-                      {current ? "Playing" : provider}
+                      {selected
+                        ? playing
+                          ? "Playing"
+                          : "Ready to play"
+                        : providerLabel(song.url)}
                     </span>
                     {song.note ? (
                       <span className="mt-1 block text-sm leading-snug text-paper">
@@ -289,22 +370,22 @@ export function Mixtape({
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={
-          playing
-            ? `${childName}'s mixtape, playing ${playing.title}`
+          current
+            ? `${childName}'s mixtape, ${playing ? "playing" : "ready to play"} ${current.title}`
             : `${childName}'s mixtape, ${songs.length === 1 ? "1 song" : `${songs.length} songs`}`
         }
         whileHover={{ scale: 1.06, rotate: -4 }}
         whileTap={{ scale: 0.94 }}
-        className="inline-flex h-14 min-w-14 items-center justify-center gap-2.5 rounded-full border-2 border-butter bg-ink px-4 text-butter shadow-lifted"
+        className="pointer-events-auto inline-flex h-14 min-w-14 items-center justify-center gap-2.5 rounded-full border-2 border-butter bg-ink px-4 text-butter shadow-lifted"
       >
-        {playing ? (
+        {current && playing ? (
           <Equaliser />
         ) : (
           <Music aria-hidden="true" className="size-6" strokeWidth={2.25} />
         )}
-        {playing ? (
+        {current ? (
           <span className="max-w-32 truncate pr-1 font-hand text-[1.1rem] leading-none">
-            {playing.title}
+            {current.title}
           </span>
         ) : null}
       </m.button>

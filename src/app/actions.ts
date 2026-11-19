@@ -270,7 +270,11 @@ export async function deleteMemory(id: string): Promise<ActionState> {
 
 const songSchema = z.object({
   childId: z.uuid("Choose whose mixtape this goes on."),
-  url: z.string().trim().min(1, "Paste a YouTube or Spotify link.").max(300),
+  url: z
+    .string()
+    .trim()
+    .min(1, "Paste a YouTube or Spotify link, or upload a recording.")
+    .max(500),
   title: z.string().trim().max(120),
   note: optionalText(200),
 });
@@ -303,10 +307,28 @@ export async function createSong(
   const input = parsed.data;
 
   const embed = parseSongUrl(input.url);
-  if (!embed)
+  if (!embed) {
     return fail(
       "That isn't a YouTube or Spotify link. Paste the share link for a song or playlist.",
     );
+  }
+
+  // An uploaded recording has no page to read a title from, and must be one of ours.
+  if (embed.provider === "audio") {
+    const ours = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`;
+    if (!embed.embedUrl.startsWith(ours))
+      return fail("That recording didn't come from this journal's Cloudinary.");
+    if (!input.title) return fail("Give the recording a name for its tape.");
+    await db().insert(schema.songs).values({
+      childId: input.childId,
+      url: input.url,
+      title: input.title,
+      note: input.note,
+      thumbnail: null,
+    });
+    updateTag(JOURNAL_TAG);
+    return done("Added to the mixtape.");
+  }
 
   const found = await lookUpSong(input.url, embed.provider);
   const title = input.title || found?.title;
@@ -334,7 +356,25 @@ export async function deleteSong(id: string): Promise<ActionState> {
   if (blocked) return blocked;
   if (!z.uuid().safeParse(id).success)
     return fail("That song no longer exists.");
-  await db().delete(schema.songs).where(eq(schema.songs.id, id));
+
+  const [removed] = await db()
+    .delete(schema.songs)
+    .where(eq(schema.songs.id, id))
+    .returning();
+  const embed = removed ? parseSongUrl(removed.url) : null;
+  if (embed?.provider === "audio" && hasCloudinary) {
+    // .../video/upload/v123/baby-journal/name.mp3 -> baby-journal/name
+    const publicId = embed.embedUrl.match(
+      /\/upload\/(?:v\d+\/)?(.+)\.[a-z0-9]+$/i,
+    )?.[1];
+    if (publicId) {
+      configureCloudinary();
+      // The song is already off the mixtape; a failed cleanup only leaves an unused file behind.
+      await cloudinary.uploader
+        .destroy(publicId, { resource_type: "video" })
+        .catch(() => undefined);
+    }
+  }
   updateTag(JOURNAL_TAG);
   return done("Taken off the mixtape.");
 }

@@ -30,9 +30,12 @@ const build = (childId: string, drafts: Draft[]): Memory[] =>
     childId,
   }));
 
-/** JVKE's "her" (feat. ZVC), the journal's own song and the first tape on the mixtape. */
-// Starts at 0:50, where ZVC's verse comes in.
-const HER = "https://www.youtube.com/watch?v=y2ecafXmnIY&t=50s";
+/**
+ * JVKE's "her" (feat. ZVC) on Spotify: the journal's own song and the first tape.
+ * It plays as audio, and starts at 0:50 (where ZVC's verse comes in) for
+ * listeners signed in to Spotify; others hear Spotify's own preview clip.
+ */
+const HER = "https://open.spotify.com/track/5YdQdAZHSyjp7S85Tzyjeq#t=50";
 const COVER_PHOTO = "1590601689970-c298e8bddf12";
 
 const angelMemories = build(ANGEL, [
@@ -149,8 +152,6 @@ const angelMemories = build(ANGEL, [
   },
 ]);
 
-const yt = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-
 const songs: Song[] = [
   {
     id: "demo-song-1",
@@ -158,7 +159,7 @@ const songs: Song[] = [
     url: HER,
     title: "her (feat. ZVC)",
     note: "The one we played the day we brought you home.",
-    thumbnail: yt("y2ecafXmnIY"),
+    thumbnail: null,
   },
   {
     id: "demo-song-2",

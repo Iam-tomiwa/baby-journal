@@ -41,7 +41,11 @@ A static **sample journal** (stock photos, invented names) is always available a
 - `src/lib/image-loader.ts` is the `next/image` loader: Cloudinary picks the format and size for each screen.
 - `src/lib/chapters.ts` groups memories by the child's age and gives each one its tilt, tape and colour from a seeded random, so pages look hand-arranged but render identically on server and client.
 - The parents' desk opens a five-step walkthrough the first time a parent visits (remembered in the browser) and again from "How this works" (`src/components/parents/walkthrough.tsx`).
-- Songs accept YouTube and Spotify links for single tracks or playlists (`src/lib/songs.ts`). Players load only when someone presses play.
+- Songs (`src/lib/songs.ts`, `src/components/journal/use-song-engine.ts`) come from three places:
+  - **Spotify links** play as audio through Spotify's embed controller. Visitors signed in to Spotify hear the full song; everyone else hears Spotify's ~30-second preview.
+  - **Uploaded recordings** (an audio file sent to Cloudinary from the Song form) play in full for everyone through an `<audio>` element. Upload only recordings you made or have the right to share.
+  - **YouTube links** still work, as a video player.
+  - A start time is kept on the link as `#t=50`. Opening a journal starts its first song; browsers only allow sound after a tap, click or key press, so a reader who scrolls in without touching anything hears it on their first tap.
 
 ## Installable app (PWA)
 

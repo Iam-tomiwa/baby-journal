@@ -1,7 +1,11 @@
-import { parseSongUrl } from "@/lib/songs";
+import { parseSongUrl, providerLabel } from "@/lib/songs";
 import { cn } from "@/lib/utils";
 
-/** The provider's own player. Only mount this once someone has asked to listen. */
+/**
+ * A song's own player: the provider's embed for YouTube and Spotify, or the
+ * browser's audio controls for an uploaded recording. Only mount this once
+ * someone has asked to listen.
+ */
 export function SongPlayer({
   url,
   title,
@@ -15,6 +19,24 @@ export function SongPlayer({
 }) {
   const embed = parseSongUrl(url);
   if (!embed) return null;
+
+  if (embed.provider === "audio") {
+    const src =
+      embed.startAt > 0
+        ? `${embed.embedUrl}#t=${embed.startAt}`
+        : embed.embedUrl;
+    return (
+      <audio
+        src={src}
+        controls
+        autoPlay={autoplay}
+        preload="metadata"
+        aria-label={title}
+        className={cn("w-full", className)}
+      />
+    );
+  }
+
   const src =
     autoplay && embed.provider === "youtube"
       ? `${embed.embedUrl}${embed.embedUrl.includes("?") ? "&" : "?"}autoplay=1`
@@ -23,7 +45,7 @@ export function SongPlayer({
   return (
     <iframe
       src={src}
-      title={`${title}, on ${embed.provider === "spotify" ? "Spotify" : "YouTube"}`}
+      title={`${title}, on ${providerLabel(url)}`}
       loading="lazy"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       referrerPolicy="strict-origin-when-cross-origin"

@@ -31,7 +31,7 @@ It is a book per child, read by age, rather than a photo feed or a shared album.
 
 ## Capabilities and Constraints
 
-- Entry types: photo, video, milestone, written note, song. No growth measurements and no parent-chosen stickers (declined by the owner).
+- Entry types: photo, video, milestone, written note, song. A song is a Spotify or YouTube link, or an uploaded audio recording. No growth measurements and no parent-chosen stickers (declined by the owner).
 - Up to 12 photos or videos can be added in one pass; each is its own memory with its own caption, sharing one date.
 - Media is uploaded straight from the browser to Cloudinary with a signed request; the database stores only the delivery URL and dimensions.
 - A static sample journal lives at `/demo`. The shelf shows only real journals, with an empty state before the first one.

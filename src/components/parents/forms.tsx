@@ -1,10 +1,15 @@
 "use client";
 
-import { Check, ImagePlus, X } from "lucide-react";
+import { Check, ImagePlus, Mic, X } from "lucide-react";
 import * as m from "motion/react-m";
 import { useActionState, useId, useState, type DragEvent } from "react";
 import { toast } from "sonner";
-import { createChild, createMemory, createSong } from "@/app/actions";
+import {
+  createChild,
+  createMemory,
+  createSong,
+  getUploadTicket,
+} from "@/app/actions";
 import { BookCover } from "@/components/journal/book-cover";
 import { Cassette } from "@/components/journal/mixtape";
 import {
@@ -16,7 +21,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ageLabel, cardDate, longDate } from "@/lib/age";
 import { sheetForDate } from "@/lib/chapters";
-import { parseSongUrl } from "@/lib/songs";
+import {
+  parseSongUrl,
+  providerLabel,
+  startSeconds,
+  withStart,
+} from "@/lib/songs";
 import {
   COVER_COLORS,
   type ActionState,
@@ -643,36 +653,140 @@ export function NoteForm({
 
 // --------------------------------------------------------------------- song
 
+type Recording =
+  | { status: "idle" }
+  | { status: "uploading"; progress: number; name: string }
+  | { status: "done"; url: string; name: string }
+  | { status: "error"; message: string };
+
+const RECORDING_LIMIT_MB = 25;
+
+/** Sends one audio file straight to Cloudinary with a server-signed request. */
+function uploadRecording(
+  file: File,
+  onProgress: (fraction: number) => void,
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    void getUploadTicket().then((ticket) => {
+      if (!ticket.ok) return reject(new Error(ticket.message));
+      const body = new FormData();
+      body.append("file", file);
+      body.append("api_key", ticket.apiKey);
+      body.append("timestamp", String(ticket.timestamp));
+      body.append("folder", ticket.folder);
+      body.append("signature", ticket.signature);
+
+      const xhr = new XMLHttpRequest();
+      // Cloudinary files audio under its "video" resource type.
+      xhr.open(
+        "POST",
+        `https://api.cloudinary.com/v1_1/${ticket.cloudName}/video/upload`,
+      );
+      xhr.responseType = "json";
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) onProgress(event.loaded / event.total);
+      };
+      xhr.onerror = () =>
+        reject(
+          new Error(
+            "The upload was interrupted. Check your connection and try again.",
+          ),
+        );
+      xhr.onload = () => {
+        const data = xhr.response as {
+          secure_url?: string;
+          error?: { message?: string };
+        } | null;
+        if (xhr.status !== 200 || !data?.secure_url) {
+          return reject(
+            new Error(
+              data?.error?.message ?? "Cloudinary didn't accept that file.",
+            ),
+          );
+        }
+        resolve(data.secure_url);
+      };
+      xhr.send(body);
+    }, reject);
+  });
+}
+
 export function SongForm({
   options,
   childId,
   onChildChange,
 }: Omit<Shared, "today" | "chaptersByChild">) {
   const id = useId();
-  const [url, setUrl] = useState("");
+  const [link, setLink] = useState("");
+  const [recording, setRecording] = useState<Recording>({ status: "idle" });
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
+  const [startAt, setStartAt] = useState("");
   const [state, action, pending] = useEntryAction(createSong, () => {
-    setUrl("");
+    setLink("");
+    setRecording({ status: "idle" });
     setTitle("");
     setNote("");
+    setStartAt("");
   });
 
-  const embed = url.trim() ? parseSongUrl(url) : null;
-  const provider = embed?.provider === "spotify" ? "Spotify" : "YouTube";
+  // A recording, once uploaded, takes the place of a pasted link.
+  const source = recording.status === "done" ? recording.url : link.trim();
+  const embed = source ? parseSongUrl(source) : null;
+  const seconds = startSeconds(startAt);
+  const startOk =
+    startAt.trim() === "" || seconds > 0 || /^0+(:0+)*$/.test(startAt.trim());
+  // Playlists start at their first song; only single songs and recordings take a start time.
+  const canStart = embed !== null && embed.kind === "track";
+  const url =
+    embed && canStart && seconds > 0 ? withStart(source, seconds) : source;
+
+  const where = embed ? providerLabel(source) : "YouTube or Spotify";
   const recognised = embed
-    ? `${provider} ${embed.kind === "playlist" ? "playlist" : "song"} recognised.`
+    ? embed.provider === "audio"
+      ? "Your recording is ready."
+      : `${where} ${embed.kind === "playlist" ? "playlist" : "song"} recognised.`
     : null;
+
+  async function chooseRecording(file: File | undefined) {
+    if (!file) return;
+    if (!file.type.startsWith("audio/")) {
+      return setRecording({
+        status: "error",
+        message: "That file isn't an audio recording.",
+      });
+    }
+    if (file.size > RECORDING_LIMIT_MB * 1024 * 1024) {
+      return setRecording({
+        status: "error",
+        message: `That recording is over ${RECORDING_LIMIT_MB} MB.`,
+      });
+    }
+    setRecording({ status: "uploading", progress: 0, name: file.name });
+    try {
+      const uploaded = await uploadRecording(file, (progress) =>
+        setRecording({ status: "uploading", progress, name: file.name }),
+      );
+      setRecording({ status: "done", url: uploaded, name: file.name });
+      setLink("");
+    } catch (error) {
+      setRecording({
+        status: "error",
+        message: error instanceof Error ? error.message : "The upload failed.",
+      });
+    }
+  }
 
   return (
     <form action={action}>
+      <input type="hidden" name="url" value={url} />
       <FormLayout
         sheet="album"
         preview={
           <div className="w-full max-w-64 rotate-2">
             <Cassette
               title={title || "Song title"}
-              provider={embed ? provider : "YouTube or Spotify"}
+              provider={where}
               tone="tomato"
             />
           </div>
@@ -685,33 +799,123 @@ export function SongForm({
           legend="Whose mixtape?"
         />
 
-        <Field
-          id={`${id}-url`}
-          label="YouTube or Spotify link"
-          hint={
-            url.trim() === ""
-              ? "A single song or a whole playlist. Use the Share button in either app and paste the link."
-              : (recognised ?? "That isn't a YouTube or Spotify link yet.")
-          }
-        >
-          <Input
-            id={`${id}-url`}
-            name="url"
-            type="url"
-            inputMode="url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            aria-invalid={url.trim() !== "" && !embed}
-            required
-            placeholder="https://www.youtube.com/watch?v=…"
-            className={inputClass}
-          />
-        </Field>
+        {recording.status === "done" ? (
+          <div className="grid gap-2">
+            <span className="text-sm font-semibold text-ink">
+              Your recording
+            </span>
+            <div className="flex items-center gap-3 rounded-2xl border-2 border-ink p-3">
+              <Check
+                aria-hidden="true"
+                className="size-5 shrink-0 text-leaf"
+                strokeWidth={3}
+              />
+              <p className="min-w-0 flex-1 truncate text-base font-medium text-ink">
+                {recording.name}
+              </p>
+              <button
+                type="button"
+                onClick={() => setRecording({ status: "idle" })}
+                aria-label="Remove this recording"
+                className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink transition-colors duration-150 hover:bg-destructive/10 hover:text-destructive"
+              >
+                <X aria-hidden="true" className="size-5" strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <Field
+              id={`${id}-url`}
+              label="Spotify or YouTube link"
+              hint={
+                link.trim() === ""
+                  ? "A single song or a whole playlist. Use the Share button in either app and paste the link. Spotify plays as audio; YouTube plays as a video."
+                  : (recognised ?? "That isn't a YouTube or Spotify link yet.")
+              }
+            >
+              <Input
+                id={`${id}-url`}
+                type="url"
+                inputMode="url"
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+                aria-invalid={link.trim() !== "" && !embed}
+                placeholder="https://open.spotify.com/track/…"
+                className={inputClass}
+              />
+            </Field>
+
+            <div className="grid gap-2">
+              <span
+                id={`${id}-file-label`}
+                className="text-sm font-semibold text-ink"
+              >
+                Or upload your own recording
+              </span>
+              <label className="relative flex min-h-16 cursor-pointer flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-ink/50 px-4 py-3 text-center transition-colors duration-150 focus-within:outline-3 focus-within:outline-offset-2 focus-within:outline-cobalt hover:border-ink hover:bg-accent">
+                <input
+                  type="file"
+                  accept="audio/*"
+                  aria-labelledby={`${id}-file-label`}
+                  className="sr-only"
+                  onChange={(e) => {
+                    void chooseRecording(e.target.files?.[0]);
+                    e.target.value = "";
+                  }}
+                />
+                {recording.status === "uploading" ? (
+                  <>
+                    <span
+                      className="text-base font-semibold text-ink"
+                      aria-live="polite"
+                    >
+                      Uploading, {Math.round(recording.progress * 100)}%
+                    </span>
+                    <span className="mt-1 block h-2 w-full max-w-xs overflow-hidden rounded-full bg-ink/15">
+                      <m.span
+                        className="block h-full origin-left rounded-full bg-cobalt"
+                        animate={{ scaleX: Math.max(recording.progress, 0.03) }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <span className="inline-flex items-center gap-2 text-base font-semibold text-ink">
+                    <Mic aria-hidden="true" className="size-5" />
+                    Choose an audio file
+                  </span>
+                )}
+              </label>
+              <p
+                className={cn(
+                  "text-sm",
+                  recording.status === "error"
+                    ? "font-medium text-destructive"
+                    : "text-ink-soft",
+                )}
+                role={recording.status === "error" ? "alert" : undefined}
+              >
+                {recording.status === "error"
+                  ? recording.message
+                  : `A lullaby you sing, a voice message, a first giggle. MP3 or M4A, up to ${RECORDING_LIMIT_MB} MB. Upload only recordings you made or have the right to share.`}
+              </p>
+            </div>
+          </>
+        )}
 
         <Field
           id={`${id}-title`}
-          label="Name on the tape (optional)"
-          hint="Leave it empty to use the song's own title."
+          label={
+            embed?.provider === "audio"
+              ? "Name on the tape"
+              : "Name on the tape (optional)"
+          }
+          hint={
+            embed?.provider === "audio"
+              ? undefined
+              : "Leave it empty to use the song's own title."
+          }
         >
           <Input
             id={`${id}-title`}
@@ -719,10 +923,35 @@ export function SongForm({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={120}
+            required={embed?.provider === "audio"}
             placeholder="Our 3am playlist"
             className={inputClass}
           />
         </Field>
+
+        {canStart ? (
+          <Field
+            id={`${id}-start`}
+            label="Start playing from (optional)"
+            hint={
+              !startOk
+                ? "Write it as minutes and seconds, like 0:50."
+                : embed?.provider === "spotify"
+                  ? "Minutes and seconds, like 0:50. Spotify only honours this for listeners signed in to Spotify."
+                  : "Minutes and seconds, like 0:50."
+            }
+          >
+            <Input
+              id={`${id}-start`}
+              value={startAt}
+              onChange={(e) => setStartAt(e.target.value)}
+              inputMode="numeric"
+              aria-invalid={!startOk}
+              placeholder="0:50"
+              className={cn(inputClass, "max-w-40")}
+            />
+          </Field>
+        ) : null}
 
         <Field id={`${id}-note`} label="Why this one? (optional)">
           <Input
@@ -739,7 +968,11 @@ export function SongForm({
         <FormFooter>
           <FormError message={state && !state.ok ? state.message : null} />
           <div>
-            <button type="submit" disabled={pending} className={primaryButton}>
+            <button
+              type="submit"
+              disabled={pending || recording.status === "uploading" || !startOk}
+              className={primaryButton}
+            >
               {pending ? "Recording…" : "Add to the mixtape"}
             </button>
           </div>
