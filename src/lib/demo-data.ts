@@ -31,11 +31,11 @@ const build = (childId: string, drafts: Draft[]): Memory[] =>
   }));
 
 /**
- * JVKE's "her" (feat. ZVC) on Spotify: the journal's own song and the first tape.
- * It plays as audio, and starts at 0:50 (where ZVC's verse comes in) for
- * listeners signed in to Spotify; others hear Spotify's own preview clip.
+ * JVKE's "her" (feat. ZVC), from YouTube Music: the journal's own song and the
+ * first tape. It is the audio track (a still cover, no music video) and plays
+ * in full for everyone, from 0:55, where ZVC's verse comes in.
  */
-const HER = "https://open.spotify.com/track/5YdQdAZHSyjp7S85Tzyjeq#t=50";
+const HER = "https://music.youtube.com/watch?v=Sedx84xX-xg&t=55s";
 const COVER_PHOTO = "1590601689970-c298e8bddf12";
 
 const angelMemories = build(ANGEL, [
@@ -159,7 +159,7 @@ const songs: Song[] = [
     url: HER,
     title: "her (feat. ZVC)",
     note: "The one we played the day we brought you home.",
-    thumbnail: null,
+    thumbnail: "https://i.ytimg.com/vi/Sedx84xX-xg/hqdefault.jpg",
   },
   {
     id: "demo-song-2",
