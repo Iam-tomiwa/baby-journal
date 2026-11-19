@@ -11,7 +11,7 @@ const photo = (id: string, width: number, height: number): Media => ({
   height,
 });
 
-const ZURI = "demo-zuri";
+const ANGEL = "demo-angel";
 
 type Draft = Omit<
   Memory,
@@ -30,20 +30,25 @@ const build = (childId: string, drafts: Draft[]): Memory[] =>
     childId,
   }));
 
-const zuriMemories = build(ZURI, [
+/** JVKE's "her" (feat. ZVC), the journal's own song and the first tape on the mixtape. */
+// Starts at 0:50, where ZVC's verse comes in.
+const HER = "https://www.youtube.com/watch?v=y2ecafXmnIY&t=50s";
+const COVER_PHOTO = "1590601689970-c298e8bddf12";
+
+const angelMemories = build(ANGEL, [
+  {
+    kind: "photo",
+    title: "Dad says hello",
+    body: "He talked to you through the bump every single night.",
+    happenedOn: "2026-01-18",
+    media: photo("1512094476718-4d8f19366c62", 2848, 4272),
+  },
   {
     kind: "note",
     title: "A note before you came",
     body: "The cot is built, the bag is packed, and your dad has practised the car seat four times. We are so ready to meet you.",
     author: "Mum",
     happenedOn: "2026-01-24",
-  },
-  {
-    kind: "photo",
-    title: "Ten tiny toes",
-    body: "Counted them twice, just to be sure.",
-    happenedOn: "2026-02-03",
-    media: photo("1510154221590-ff63e90a136f", 5184, 3456),
   },
   {
     kind: "milestone",
@@ -53,23 +58,23 @@ const zuriMemories = build(ZURI, [
   },
   {
     kind: "photo",
-    title: "You held on tight",
+    title: "Fast asleep, day three",
+    body: "Wrapped up like a little parcel.",
     happenedOn: "2026-02-05",
-    media: photo("1470116945706-e6bf5d5a53ca", 4000, 3000),
+    media: photo("1583086762675-5a88bcc72548", 5408, 3600),
+    songUrl: HER,
   },
   {
     kind: "photo",
-    title: "Grandma's knitted hat",
-    body: "She started it the day we told her.",
-    happenedOn: "2026-02-16",
-    media: photo("1604917621956-10dfa7cce2e7", 3585, 5751),
-    songUrl: "https://open.spotify.com/track/6dGnYIeXmHdcikdzNNDMm2",
+    title: "Wide awake, not impressed",
+    happenedOn: "2026-02-20",
+    media: photo("1547082722-ebad0c0cb815", 3840, 2160),
   },
   {
     kind: "photo",
-    title: "The biggest yawn",
-    happenedOn: "2026-03-09",
-    media: photo("1480985041486-c65b20c01d1f", 4928, 3264),
+    title: "Asleep on Mum's shoulder",
+    happenedOn: "2026-03-15",
+    media: photo("1548783102-9eed000b70ef", 16000, 9000),
   },
   {
     kind: "note",
@@ -77,12 +82,6 @@ const zuriMemories = build(ZURI, [
     body: "You only sleep on my chest this week. I should mind more than I do.",
     author: "Dad",
     happenedOn: "2026-03-21",
-  },
-  {
-    kind: "photo",
-    title: "The three of us",
-    happenedOn: "2026-04-11",
-    media: photo("1543342384-1f1350e27861", 3712, 5568),
   },
   {
     kind: "milestone",
@@ -104,9 +103,9 @@ const zuriMemories = build(ZURI, [
   },
   {
     kind: "photo",
-    title: "Tummy time champion",
-    happenedOn: "2026-05-12",
-    media: photo("1608365151231-7dbed3034787", 5184, 3456),
+    title: "Mum and her girl",
+    happenedOn: "2026-05-10",
+    media: photo("1591451855781-9eb0f9726a33", 5168, 2912),
   },
   {
     kind: "milestone",
@@ -116,16 +115,10 @@ const zuriMemories = build(ZURI, [
   },
   {
     kind: "photo",
-    title: "The heart onesie",
-    body: "Outgrown nine days later.",
-    happenedOn: "2026-06-21",
-    media: photo("1617268604962-a2878c372cc7", 5304, 7952),
-  },
-  {
-    kind: "photo",
-    title: "Dreaming of milk",
+    title: "The flower dress",
+    body: "Sunday best, and she knew it.",
     happenedOn: "2026-07-08",
-    media: photo("1649880210584-3365f4c4c08b", 3800, 5700),
+    media: photo("1555093279-99bf405fe600", 3648, 4560),
   },
   {
     kind: "milestone",
@@ -135,17 +128,17 @@ const zuriMemories = build(ZURI, [
   },
   {
     kind: "photo",
-    title: "Off across the lawn",
-    body: "Nothing is safe now.",
+    title: "First hair bobbles",
+    body: "Sat still for all four. A miracle.",
     happenedOn: "2026-09-27",
-    media: photo("1571211468362-33f20cb1982f", 3648, 5472),
+    media: photo(COVER_PHOTO, 3024, 4032),
   },
   { kind: "milestone", title: "First tooth", happenedOn: "2026-10-06" },
   {
     kind: "photo",
     title: "Best shoes in the house",
     happenedOn: "2026-11-08",
-    media: photo("1608093602519-ccd31f515f83", 5464, 8192),
+    media: photo("1637230870581-b70067e5ecd0", 6000, 4000),
   },
   {
     kind: "note",
@@ -161,25 +154,25 @@ const yt = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const songs: Song[] = [
   {
     id: "demo-song-1",
-    childId: ZURI,
-    url: "https://open.spotify.com/track/6dGnYIeXmHdcikdzNNDMm2",
-    title: "Here Comes the Sun",
-    note: "Playing in the car on the way home from hospital.",
-    thumbnail: null,
+    childId: ANGEL,
+    url: HER,
+    title: "her (feat. ZVC)",
+    note: "The one we played the day we brought you home.",
+    thumbnail: yt("y2ecafXmnIY"),
   },
   {
     id: "demo-song-2",
-    childId: ZURI,
-    url: "https://www.youtube.com/watch?v=yCjJyiqpAuU",
-    title: "Twinkle Twinkle Little Star",
-    note: "The only thing that works at bath time.",
-    thumbnail: yt("yCjJyiqpAuU"),
+    childId: ANGEL,
+    url: "https://open.spotify.com/playlist/2gcM490lCenbhytuOFlKK6",
+    title: "Baby Nursery Rhymes",
+    note: "Bath time, car rides, every single nappy change.",
+    thumbnail: null,
   },
   {
     id: "demo-song-3",
-    childId: ZURI,
-    url: "https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO",
-    title: "Peaceful Piano",
+    childId: ANGEL,
+    url: "https://open.spotify.com/playlist/3gU7D5fjxe2Lx8YwNFwNwC",
+    title: "Baby Sleep Aid: Gentle Lullabies",
     note: "Our 3am feeding playlist.",
     thumbnail: null,
   },
@@ -187,14 +180,14 @@ const songs: Song[] = [
 
 export const demoJournal: Journal = {
   child: {
-    id: ZURI,
+    id: ANGEL,
     slug: "demo",
-    name: "Zuri",
+    name: "Angel",
     birthDate: "2026-02-03",
     coverColor: "tomato",
-    coverPhoto: zuriMemories[12].media,
-    memoryCount: zuriMemories.length,
+    coverPhoto: photo(COVER_PHOTO, 3024, 4032),
+    memoryCount: angelMemories.length,
   },
-  memories: zuriMemories,
+  memories: angelMemories,
   songs,
 };

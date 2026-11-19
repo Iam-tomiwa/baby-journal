@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="116" fill="#f7d774"/><g transform="translate(256 256) scale(1.2) translate(-256 -256)">
+  <g transform="rotate(-7 256 262)">
+    <!-- page block peeking past the boards -->
+    <path d="M150 122h196a30 30 0 0 1 30 30v252a30 30 0 0 1-30 30H150Z" fill="#fffdf8"/>
+    <path d="M362 140v276M350 132v294" stroke="#1d2145" stroke-opacity=".2" stroke-width="3"/>
+    <!-- front board -->
+    <path d="M134 104h196a30 30 0 0 1 30 30v252a30 30 0 0 1-30 30H134a8 8 0 0 1-8-8V112a8 8 0 0 1 8-8Z" fill="#c43a23"/>
+    <!-- spine, in the shade of the hinge -->
+    <path d="M134 104h40v312h-40a8 8 0 0 1-8-8V112a8 8 0 0 1 8-8Z" fill="#9c2b18"/>
+    <!-- hand stitching -->
+    <path d="M160 136v34M161 198v36M159 262v34M160 324v36M160 384v14" stroke="#fff6dc" stroke-width="9" stroke-linecap="round"/>
+    <!-- die-cut window -->
+    <circle cx="268" cy="246" r="70" fill="#9c2b18"/>
+    <circle cx="268" cy="246" r="59" fill="#fff6dc"/>
+    <path d="M268 285c-27-21-37-36-37-48 0-12 9-20 19-20 7 0 14 4 18 10 4-6 11-10 18-10 10 0 19 8 19 20 0 12-10 27-37 48Z" fill="#c43a23"/>
+  </g>
+  </g>
+</svg>

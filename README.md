@@ -1,6 +1,6 @@
 # Baby journal
 
-A family baby journal that behaves like the physical book: a cloth cover you open, then one sheet of coloured paper per age with photos, videos, firsts and handwritten notes stuck in, and a mixtape of the songs that went with them.
+A family baby journal that behaves like the physical book: a cloth cover you open, then one sheet of coloured paper per age with photos, videos, firsts and handwritten notes stuck in, and a mixtape of the songs that went with them, kept on a floating music button.
 
 - **Next.js 16** (App Router, Cache Components), **React 19**, **Tailwind CSS 4**, **shadcn/ui**
 - **Motion** for the cover opening, the prints settling onto the page and the reader
@@ -31,7 +31,7 @@ A static **sample journal** (stock photos, invented names) is always available a
 | --- | --- |
 | `/` | The shelf: one book per child |
 | `/demo` | A static sample journal; never touches the database |
-| `/[child]` | A journal: cover, age chapters, mixtape. Public to anyone with the link |
+| `/[child]` | A journal: cover, age chapters, and a floating mixtape button. Public to anyone with the link |
 | `/parents` | The parents' desk: add a photo or video, a first, a note, a song, or a new journal. Passcode protected |
 
 - `src/db/schema.ts` has three tables: `children`, `memories`, `songs`.
@@ -42,6 +42,15 @@ A static **sample journal** (stock photos, invented names) is always available a
 - `src/lib/chapters.ts` groups memories by the child's age and gives each one its tilt, tape and colour from a seeded random, so pages look hand-arranged but render identically on server and client.
 - The parents' desk opens a five-step walkthrough the first time a parent visits (remembered in the browser) and again from "How this works" (`src/components/parents/walkthrough.tsx`).
 - Songs accept YouTube and Spotify links for single tracks or playlists (`src/lib/songs.ts`). Players load only when someone presses play.
+
+## Installable app (PWA)
+
+The journal can be installed to a phone's home screen or a desktop dock.
+
+- `src/app/manifest.ts` is the web app manifest; names come from `src/lib/site.ts`.
+- The logo is `public/icons/logo.svg` (also `src/app/icon.svg`). `icon-192.png`, `icon-512.png`, `maskable-512.png`, `src/app/apple-icon.png` and `src/app/favicon.ico` are rendered from it.
+- `public/sw.js` is the service worker. Pages are fetched fresh when there is a connection and fall back to the last copy seen, then to `/offline`. Photos, videos and the parents' desk are never cached by it.
+- The service worker only registers in production builds (`pnpm build && pnpm start`, or a deployment), and installing needs HTTPS or localhost.
 
 ## Motion
 

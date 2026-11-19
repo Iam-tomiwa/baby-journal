@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Caprasimo, Gochi_Hand, Schibsted_Grotesk } from "next/font/google";
 import { MotionProvider } from "@/components/motion-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { SITE_NAME } from "@/lib/site";
+import { ServiceWorker } from "@/components/service-worker";
+import { SITE_NAME, SITE_SHORT_NAME } from "@/lib/site";
 import "./globals.css";
 
 const display = Caprasimo({
@@ -27,10 +28,18 @@ export const metadata: Metadata = {
   },
   description:
     "A baby journal for photos, videos, firsts, notes and the songs that went with them.",
+  applicationName: SITE_NAME,
+  appleWebApp: {
+    capable: true,
+    title: SITE_SHORT_NAME,
+    statusBarStyle: "default",
+  },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1d2145",
+  // Matches the shelf, the first page an installed app opens on.
+  themeColor: "#f7d774",
   viewportFit: "cover",
 };
 
@@ -43,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-svh">
         <MotionProvider>{children}</MotionProvider>
         <Toaster position="top-center" />
+        <ServiceWorker />
       </body>
     </html>
   );

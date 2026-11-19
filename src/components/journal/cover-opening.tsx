@@ -10,6 +10,9 @@ import {
 import * as m from "motion/react-m";
 import { createContext, use, useRef, type ReactNode } from "react";
 
+/** Fired on `window` when the reader presses "Open the journal". */
+export const JOURNAL_OPENED = "journal:opened";
+
 const OpenContext = createContext<() => void>(() => undefined);
 
 /** The cover's one action. Rendered inside the cover, wired to the opening sequence around it. */
@@ -58,6 +61,8 @@ export function CoverOpening({
   function open() {
     const el = track.current;
     if (!el) return;
+    // Pressing the button is the reader's go-ahead for sound; the mixtape listens for this.
+    window.dispatchEvent(new Event(JOURNAL_OPENED));
     const end = el.offsetTop + el.offsetHeight - window.innerHeight;
     if (still) {
       window.scrollTo({ top: end });

@@ -62,7 +62,7 @@ function Nameplate({
 }
 
 /**
- * A whole journal: cover, nameplate, age chapters, mixtape. Used for real
+ * A whole journal: cover, nameplate, age chapters, and the floating mixtape. Used for real
  * journals and, with `sample`, for the static one at /demo.
  */
 export function JournalView({
@@ -80,13 +80,6 @@ export function JournalView({
     title: c.title,
     sheet: c.sheet,
   }));
-  if (songs.length > 0)
-    tabs.push({
-      id: "mixtape",
-      label: "Songs",
-      title: "The mixtape",
-      sheet: "album",
-    });
 
   return (
     <main className="relative overflow-x-clip">
@@ -145,9 +138,9 @@ export function JournalView({
 
       <footer
         data-sheet="album"
-        className="sheet px-5 pb-28 pt-4 text-paper sm:px-8 lg:pb-12"
+        className="sheet pinked relative px-5 pb-28 pt-10 text-paper sm:px-8 lg:pb-12"
       >
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-2 border-t border-paper/25 pt-6 text-sm font-medium">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-2 text-sm font-medium">
           <Link
             href="/"
             className="inline-flex min-h-11 items-center underline"

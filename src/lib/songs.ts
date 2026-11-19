@@ -15,6 +15,19 @@ const SPOTIFY_TYPES = new Set([
   "show",
 ]);
 
+/** Reads YouTube's time formats ("50", "50s", "1m30s", "1h2m3s") as whole seconds; 0 if absent or odd. */
+function startSeconds(value: string | null): number {
+  if (!value) return 0;
+  if (/^\d+$/.test(value)) return Number(value);
+  const parts = value.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/);
+  if (!parts || parts[0] === "") return 0;
+  return (
+    Number(parts[1] ?? 0) * 3600 +
+    Number(parts[2] ?? 0) * 60 +
+    Number(parts[3] ?? 0)
+  );
+}
+
 /** Turns a pasted YouTube or Spotify link into its embeddable player, or null. */
 export function parseSongUrl(input: string): SongEmbed | null {
   let url: URL;
@@ -64,10 +77,18 @@ export function parseSongUrl(input: string): SongEmbed | null {
       };
     }
     if (!id) return null;
+    // A link copied "at current time" (?t=50, ?t=1m30s, ?start=50) starts the player there.
+    const start = startSeconds(
+      url.searchParams.get("t") ?? url.searchParams.get("start"),
+    );
+    const query = new URLSearchParams();
+    if (list) query.set("list", list);
+    if (start > 0) query.set("start", String(start));
+    const suffix = query.size > 0 ? `?${query}` : "";
     return {
       provider: "youtube",
       kind: "track",
-      embedUrl: `https://www.youtube-nocookie.com/embed/${id}${list ? `?list=${list}` : ""}`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${id}${suffix}`,
       height: null,
     };
   }

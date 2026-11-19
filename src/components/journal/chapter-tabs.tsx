@@ -66,7 +66,7 @@ export function ChapterTabs({ tabs }: { tabs: TabLink[] }) {
       aria-label="Chapters"
       inert={!shown}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-30 bg-ink transition-transform duration-300 ease-out-expo lg:inset-x-auto lg:bottom-auto lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:bg-transparent",
+        "fixed inset-x-0 bottom-0 z-30 bg-ink transition-transform duration-300 ease-out-expo lg:inset-x-auto lg:bottom-auto lg:right-0 lg:top-[45%] lg:-translate-y-1/2 lg:bg-transparent",
         shown
           ? "translate-y-0 lg:translate-x-0"
           : "translate-y-full lg:translate-x-full",
@@ -74,7 +74,7 @@ export function ChapterTabs({ tabs }: { tabs: TabLink[] }) {
     >
       <ol
         ref={strip}
-        className="flex items-center gap-2 overflow-x-auto px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] [scrollbar-width:none] lg:max-h-[82svh] lg:flex-col lg:items-end lg:gap-1.5 lg:overflow-y-auto lg:p-0 lg:py-1 lg:pl-4"
+        className="flex items-center gap-2 overflow-x-auto px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] [scrollbar-width:none] lg:max-h-[68svh] lg:flex-col lg:items-end lg:gap-1.5 lg:overflow-y-auto lg:p-0 lg:py-1 lg:pl-4"
       >
         <li className="lg:hidden">
           <Link

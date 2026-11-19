@@ -358,7 +358,14 @@ function slugify(name: string): string {
   );
 }
 
-const RESERVED = new Set(["parents", "demo", "api", "_next"]);
+const RESERVED = new Set([
+  "parents",
+  "demo",
+  "offline",
+  "icons",
+  "api",
+  "_next",
+]);
 
 export async function createChild(
   _prev: ActionState,
