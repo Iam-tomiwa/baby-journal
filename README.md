@@ -54,6 +54,7 @@ The journal can be installed to a phone's home screen or a desktop dock.
 - `src/app/manifest.ts` is the web app manifest; names come from `src/lib/site.ts`.
 - The logo is `public/icons/logo.svg` (also `src/app/icon.svg`). `icon-192.png`, `icon-512.png`, `maskable-512.png`, `src/app/apple-icon.png` and `src/app/favicon.ico` are rendered from it.
 - `public/sw.js` is the service worker. Pages are fetched fresh when there is a connection and fall back to the last copy seen, then to `/offline`. Photos, videos and the parents' desk are never cached by it.
+- `src/components/install-prompt.tsx` offers to install the journal after about 12 seconds on a page. Where the browser supports it (Chrome, Edge, Android) its button installs directly; on iPhone and iPad it shows the Share → Add to Home Screen steps. It never shows once installed, and stays away for 30 days after "Not now".
 - The service worker only registers in production builds (`pnpm build && pnpm start`, or a deployment), and installing needs HTTPS or localhost.
 
 ## Motion

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Caprasimo, Gochi_Hand, Schibsted_Grotesk } from "next/font/google";
 import { MotionProvider } from "@/components/motion-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { InstallPrompt } from "@/components/install-prompt";
 import { ServiceWorker } from "@/components/service-worker";
 import { SITE_NAME, SITE_SHORT_NAME } from "@/lib/site";
 import "./globals.css";
@@ -50,7 +51,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${hand.variable} ${sans.variable} antialiased`}
     >
       <body className="min-h-svh">
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          {children}
+          <InstallPrompt />
+        </MotionProvider>
         <Toaster position="top-center" />
         <ServiceWorker />
       </body>

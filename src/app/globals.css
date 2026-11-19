@@ -307,7 +307,8 @@ html:not([data-motion]) [data-placed] {
 
 /* The index tabs step aside while a print is open in the reader. */
 html[data-reader] nav[aria-label="Chapters"],
-html[data-reader] [data-mixtape] {
+html[data-reader] [data-mixtape],
+html[data-reader] [data-install-prompt] {
   visibility: hidden;
 }
 
