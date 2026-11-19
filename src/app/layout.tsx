@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Caprasimo, Gochi_Hand, Schibsted_Grotesk } from "next/font/google";
 import { MotionProvider } from "@/components/motion-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { SITE_NAME } from "@/lib/site";
 import "./globals.css";
 
 const display = Caprasimo({
@@ -21,8 +22,8 @@ const sans = Schibsted_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "The family journals",
-    template: "%s · The family journals",
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
   description:
     "A baby journal for photos, videos, firsts, notes and the songs that went with them.",

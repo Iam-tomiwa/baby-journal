@@ -1,8 +1,7 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db, schema } from "@/db";
-import { demo } from "./demo-data";
-import { isDemo } from "./env";
+import { hasDatabase } from "./env";
 import {
   COVER_COLORS,
   MEMORY_KINDS,
@@ -69,7 +68,7 @@ export async function getChildren(): Promise<Child[]> {
   "use cache";
   cacheTag(JOURNAL_TAG);
   cacheLife("hours");
-  if (isDemo) return demo.children;
+  if (!hasDatabase) return [];
 
   const [childRows, memoryRows] = await Promise.all([
     db().select().from(schema.children).orderBy(asc(schema.children.birthDate)),
@@ -98,7 +97,7 @@ export async function getJournal(slug: string): Promise<Journal | null> {
   "use cache";
   cacheTag(JOURNAL_TAG);
   cacheLife("hours");
-  if (isDemo) return demo.journal(slug);
+  if (!hasDatabase) return null;
 
   const child = (await getChildren()).find((c) => c.slug === slug);
   if (!child) return null;
@@ -130,9 +129,7 @@ export async function getRecentEntries(): Promise<RecentEntries> {
   "use cache";
   cacheTag(JOURNAL_TAG);
   cacheLife("hours");
-  if (isDemo) {
-    return { memories: demo.memories.slice(-8).reverse(), songs: demo.songs };
-  }
+  if (!hasDatabase) return { memories: [], songs: [] };
 
   const [memoryRows, songRows] = await Promise.all([
     db()

@@ -115,15 +115,15 @@ async function DeskContents() {
         </div>
       </div>
 
-      {access === "demo" ? (
+      {access === "no-database" ? (
         <p
           data-sheet="butter"
           className="sheet mt-6 max-w-[75ch] rounded-2xl px-5 py-4 text-base leading-relaxed text-ink"
         >
-          You&rsquo;re looking at the sample journal, so nothing here saves yet.
-          Add your Neon and Cloudinary keys to{" "}
+          The database isn&rsquo;t connected yet, so nothing here saves. Add
+          your Neon and Cloudinary keys to{" "}
           <code className="font-semibold">.env.local</code> (the README walks
-          through it) and this desk starts writing to your own journals.
+          through it) and restart.
         </p>
       ) : null}
 

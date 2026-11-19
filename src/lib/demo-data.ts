@@ -1,8 +1,8 @@
-import type { Child, Journal, Media, Memory, Song } from "./types";
+import type { Journal, Media, Memory, Song } from "./types";
 
 /**
- * The sample journal shown until a database is connected. Photographs are
- * stock images from Unsplash; names and captions are invented.
+ * The sample journal shown at /demo. It is static: nothing here touches the
+ * database. Photographs are stock images from Unsplash; names and captions are invented.
  */
 const photo = (id: string, width: number, height: number): Media => ({
   kind: "image",
@@ -12,7 +12,6 @@ const photo = (id: string, width: number, height: number): Media => ({
 });
 
 const ZURI = "demo-zuri";
-const TOBI = "demo-tobi";
 
 type Draft = Omit<
   Memory,
@@ -157,53 +156,6 @@ const zuriMemories = build(ZURI, [
   },
 ]);
 
-const tobiMemories = build(TOBI, [
-  {
-    kind: "milestone",
-    title: "First steps",
-    body: "Four of them, from the sofa to Auntie Kemi.",
-    happenedOn: "2025-09-02",
-  },
-  {
-    kind: "photo",
-    title: "Walking everywhere now",
-    happenedOn: "2025-10-18",
-    media: photo("1598427448556-03e1e3279bd3", 4000, 6000),
-  },
-  {
-    kind: "photo",
-    title: "The yellow cup phase",
-    body: "No other cup will do.",
-    happenedOn: "2026-01-11",
-    media: photo("1600880291319-1a7499c191e8", 5304, 7952),
-  },
-  {
-    kind: "milestone",
-    title: "First word",
-    body: 'It was "ball". Obviously.',
-    happenedOn: "2026-02-20",
-  },
-  {
-    kind: "photo",
-    title: "Found the flowers",
-    happenedOn: "2026-05-23",
-    media: photo("1526864972308-bf02b0c2ab8c", 4929, 4000),
-  },
-  {
-    kind: "note",
-    title: "Big brother",
-    body: 'You kissed Zuri\'s head today and whispered "mine". We will work on sharing.',
-    author: "Dad",
-    happenedOn: "2026-06-02",
-  },
-  {
-    kind: "photo",
-    title: "Your favourite tree",
-    happenedOn: "2026-09-14",
-    media: photo("1543636200-64e72565dc16", 3884, 2600),
-  },
-]);
-
 const yt = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 const songs: Song[] = [
@@ -231,53 +183,18 @@ const songs: Song[] = [
     note: "Our 3am feeding playlist.",
     thumbnail: null,
   },
-  {
-    id: "demo-song-4",
-    childId: TOBI,
-    url: "https://www.youtube.com/watch?v=zaGUr6wzyT8",
-    title: "Three Little Birds",
-    note: "You dance to this one with your whole body.",
-    thumbnail: yt("zaGUr6wzyT8"),
-  },
 ];
 
-const firstPhoto = (memories: Memory[]): Media | null =>
-  memories.find((m) => m.media?.kind === "image")?.media ?? null;
-
-const children: Child[] = [
-  {
+export const demoJournal: Journal = {
+  child: {
     id: ZURI,
-    slug: "zuri",
+    slug: "demo",
     name: "Zuri",
     birthDate: "2026-02-03",
     coverColor: "tomato",
     coverPhoto: zuriMemories[12].media,
     memoryCount: zuriMemories.length,
   },
-  {
-    id: TOBI,
-    slug: "tobi",
-    name: "Tobi",
-    birthDate: "2024-08-19",
-    coverColor: "cobalt",
-    coverPhoto: firstPhoto(tobiMemories),
-    memoryCount: tobiMemories.length,
-  },
-];
-
-const allMemories = [...zuriMemories, ...tobiMemories];
-
-export const demo = {
-  children,
-  journal(slug: string): Journal | null {
-    const child = children.find((c) => c.slug === slug);
-    if (!child) return null;
-    return {
-      child,
-      memories: allMemories.filter((m) => m.childId === child.id),
-      songs: songs.filter((s) => s.childId === child.id),
-    };
-  },
-  memories: allMemories,
+  memories: zuriMemories,
   songs,
 };

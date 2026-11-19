@@ -8,6 +8,3 @@ export const hasCloudinary = Boolean(
 );
 
 export const hasPasscode = Boolean(process.env.PARENT_PASSCODE);
-
-/** Without a database the app serves the read-only sample journal. */
-export const isDemo = !hasDatabase;

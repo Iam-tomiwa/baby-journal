@@ -14,7 +14,7 @@ pnpm install
 pnpm dev
 ```
 
-With no keys set, the app serves a read-only **sample journal** (stock photos, invented names) so you can see everything working straight away.
+A static **sample journal** (stock photos, invented names) is always available at `/demo`. The shelf at `/` shows only your own journals, and an empty state until the first one is started.
 
 ## Connect your own data
 
@@ -30,6 +30,7 @@ With no keys set, the app serves a read-only **sample journal** (stock photos, i
 | Route | What it is |
 | --- | --- |
 | `/` | The shelf: one book per child |
+| `/demo` | A static sample journal; never touches the database |
 | `/[child]` | A journal: cover, age chapters, mixtape. Public to anyone with the link |
 | `/parents` | The parents' desk: add a photo or video, a first, a note, a song, or a new journal. Passcode protected |
 
@@ -54,4 +55,4 @@ Animations use `transform` and `opacity` only, load the Motion feature bundle la
 
 ## Sample journal credits
 
-The sample journal in `src/lib/demo-data.ts` is not real family content. Its photographs are hot-linked stock images from Unsplash (`images.unsplash.com/photo-…`, used under the Unsplash licence), its one video is Cloudinary's public demo clip (`res.cloudinary.com/demo/video/upload/dog.mp4`), and its names, dates and captions are invented. It disappears as soon as `DATABASE_URL` is set.
+The sample journal in `src/lib/demo-data.ts` is not real family content. Its photographs are hot-linked stock images from Unsplash (`images.unsplash.com/photo-…`, used under the Unsplash licence), its one video is Cloudinary's public demo clip (`res.cloudinary.com/demo/video/upload/dog.mp4`), and its names, dates and captions are invented. It is shown only at `/demo`.

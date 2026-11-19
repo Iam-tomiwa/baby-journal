@@ -1,5 +1,5 @@
 ---
-name: The family journals
+name: The Ibironke Family Journal
 description: A cloth-bound baby journal on the web, one book per child, read by age.
 colors:
   ink: "#1d2145"
@@ -163,7 +163,7 @@ components:
     padding: "5%"
 ---
 
-# Design System: The family journals
+# Design System: Ibironke Family Journal
 
 ## Overview
 
@@ -176,6 +176,7 @@ The mood is loud, warm and handmade: saturated colour at full bleed, chunky stam
 Motion follows one grammar: things are placed, not faded. Prints arrive a little high and turned, then settle on a spring; tape presses down after them; stickers are slapped on with a bounce; opening a print lifts that same print off the page into the reader. The parents' desk is the same world at lower volume: plain paper, navy ink, pill controls, and a live preview of the entry on the sheet it will land on.
 
 **Key Characteristics:**
+
 - Full-bleed coloured surfaces; no neutral page chrome anywhere in the reading experience.
 - Three typefaces with fixed jobs: stamped display, handwriting, and a plain grotesk for controls.
 - Navy ink for all text, borders and shadows. There is no grey and no black.
@@ -188,11 +189,14 @@ Motion follows one grammar: things are placed, not faded. Prints arrive a little
 A primary-school paint box: five saturated bookcloth colours, five chalky sugar-paper pastels, navy ink and warm white paper.
 
 ### Primary
+
 - **Navy Ink** (`ink`): all text on paper and sheets, every outline, the primary button, the active tab, the reader backdrop and the album sheet. Shadows are tinted with it too.
 - **Soft Ink** (`ink-soft`): secondary text on the parents' desk (hints, row details, inactive desk tabs). Used on paper and the muted wash only.
 
 ### Secondary
+
 The five bookcloths. Each is a cover colour, and the same five are the tones for date cards, washi tape and cassettes.
+
 - **Tomato** (`tomato`, hinge shade `tomato-deep`): default cover.
 - **Cobalt** (`cobalt`, `cobalt-deep`): also the focus ring, caret, upload progress and the has-a-song mark.
 - **Marigold** (`marigold`, `marigold-deep`): the one cloth that takes ink lettering instead of cream.
@@ -201,11 +205,14 @@ The five bookcloths. Each is a cover colour, and the same five are the tones for
 - **Stamp Cream** (`cover-fg`): lettering, stitching and the button on tomato, cobalt, leaf and plum cloth.
 
 ### Tertiary
+
 The sugar-paper sheets, dealt to chapters in a fixed order: sky, butter, rose, mint, lilac, then round again.
+
 - **Sky** (`sky`), **Butter** (`butter`), **Rose** (`rose`), **Mint** (`mint`), **Lilac** (`lilac`): chapter backgrounds, index tabs, and the preview panel on the desk. Butter doubles as the accent on navy: mixtape title, reader date line, the album-page button, the selected cassette outline and the text selection colour.
 - **Album** (the `ink` value used as a sheet): the mixtape page and the journal footer.
 
 ### Neutral
+
 - **Paper** (`paper`): the desk background, prints, note slips, cassette labels, dialogs, inputs. Warm white, never pure white.
 - **Lilac Wash** (`muted`): the desk tab tray and inline code.
 - **Sky Wash** (`accent-wash`): hover fill on the upload well and suggestion chips.
@@ -213,6 +220,7 @@ The sugar-paper sheets, dealt to chapters in a fixed order: sky, butter, rose, m
 - Borders are ink at reduced opacity (18% for hairlines, 42% for input strokes), never a separate grey.
 
 ### Named Rules
+
 **The Navy Ink Rule.** Text, outlines and shadows are navy (`ink`), at full strength or as a transparency of it. Grey and black do not appear.
 
 **The Paired Foreground Rule.** A cloth or tone never sets its own text colour. It carries a foreground with it: cream on tomato, cobalt, leaf and plum; ink on marigold. Ink on those four saturated cloths fails contrast (below 3:1), and cream on marigold fails worse (1.9:1).
@@ -228,6 +236,7 @@ The sugar-paper sheets, dealt to chapters in a fixed order: sky, butter, rose, m
 **Character:** A fat, soft-cornered display face that reads as foil-stamped or cut from felt, a round felt-tip hand for whatever is written in the book, and a plain friendly grotesk that stays out of the way on controls.
 
 ### Hierarchy
+
 - **Display** (400, `clamp(2.6rem, 9vw, 5.5rem)`, line-height 0.95): chapter titles, the mixtape title, the shelf heading (up to 6rem, 0.92). On the cover the child's name scales with the cover itself (container units, capped at 11rem, line-height 0.9) and steps down for long names so it stays on one line. Also the date on a milestone card.
 - **Headline** (400, `clamp(2.25rem, 7vw, 3.75rem)`, line-height 1): the parents' desk heading; 1.75rem for walkthrough step titles.
 - **Title** (Gochi Hand, 1.5rem, tight): inscriptions under a display heading, such as a chapter's month range, the shelf line, "This journal belongs to".
@@ -236,6 +245,7 @@ The sugar-paper sheets, dealt to chapters in a fixed order: sky, butter, rose, m
 - **Label** (Schibsted Grotesk 600, 0.875rem): field labels, index tabs, corner links. Buttons use the same weight at 1rem.
 
 ### Named Rules
+
 **The Three Voices Rule.** Caprasimo is stamped or printed on the book. Gochi Hand is written in the book by a person: captions, firsts, notes, inscriptions. Schibsted Grotesk is the app speaking: controls, hints, system copy. A control is never set in the hand, and a caption is never set in the grotesk.
 
 **The Ruled Line Rule.** Handwriting on ruled paper locks to the 1.75rem rule: line-height, the gap before the sign-off and the top offset are all multiples of it.
@@ -257,6 +267,7 @@ Breakpoints are Tailwind's defaults, used at 640px, 768px, 1024px and occasional
 Depth is physical and shallow: things lie on paper and cast a short, soft, navy-tinted shadow. Nothing floats on a glow, and surfaces themselves are flat colour with a paper tooth.
 
 ### Shadow Vocabulary
+
 - **Print** (`0 1px 1px rgb(29 33 69 / 0.14), 0 12px 22px -12px rgb(29 33 69 / 0.5)`): anything lying on a sheet. Prints, date cards, note slips, cassettes, the nameplate, round reader buttons, desktop index tabs.
 - **Lifted** (`0 2px 3px rgb(29 33 69 / 0.16), 0 26px 40px -18px rgb(29 33 69 / 0.6)`): something picked up off the page. The print in the reader, the page block under a shelf book.
 - **Tape** (`0 1px 2px rgb(29 33 69 / 0.18)`): washi tape only.
@@ -265,6 +276,7 @@ Depth is physical and shallow: things lie on paper and cast a short, soft, navy-
 - **Window cut** (inset, top-weighted, ink at 55%): the photo set back behind the cover board.
 
 ### Named Rules
+
 **The Lying Flat Rule.** A shadow says how far a thing is off the paper. Resting things take the print shadow, held things the lifted one. Shadows are never decoration and never coloured anything but ink.
 
 **The Placed, Not Faded Rule.** Entrances are physical. An entry arrives 30px high, 5 degrees over-turned and 6% large, then settles on the shared spring (stiffness 300, damping 26, mass 0.9), staggered 70ms across a row. Tape presses on 280ms later, scaling down from 150%. Stickers land last on a bouncier spring (stiffness 420, damping 16). Only transform and opacity animate. With reduced motion, or before the animation engine loads, everything rests in place and the cover becomes a static first screen.
@@ -280,7 +292,9 @@ Stickers are flat two- or three-colour drawings with a thick white die-cut edge,
 ## Components
 
 ### Buttons
+
 Tactile pills that squash when pressed.
+
 - **Shape:** full pill, 3rem tall (2.75rem for secondary actions, 3.5rem for the mixtape's play button), 600-weight grotesk at 1rem.
 - **Primary:** ink fill, paper text. One per form or empty state.
 - **On a cover:** cream fill with the cloth colour as text. On the album page: butter fill, ink text.
@@ -291,11 +305,13 @@ Tactile pills that squash when pressed.
 - **Quiet links:** underlined 600-weight grotesk at 0.875rem with a 2.75rem hit area, for corner and footer navigation.
 
 ### Chips
+
 - **Child picker:** 2px ink outline pill with a dot in the child's cover colour; fills ink when chosen.
 - **Suggestion chips:** thin ink-at-40% outline; hover takes the sky wash, pressed state fills butter with a full ink border.
 - **Video mark:** small ink pill, paper text, on the corner of a video print.
 
 ### Cards / Containers
+
 - **Print frame:** paper border of 0.5rem to 0.625rem, slightly deeper at the bottom for the handwritten caption; 3px corners; print shadow; the image inset on a 2px radius.
 - **Date card:** a square in one of the five tones with its paired foreground; age in small grotesk and an icon along the top, the date large in Caprasimo, the first's title in hand beneath. Padding is 9% of the card.
 - **Note slip:** paper with cobalt rules at 28% every 1.75rem, square corners, handwriting throughout, date and "Love, name" on the last line.
@@ -303,30 +319,37 @@ Tactile pills that squash when pressed.
 - **Dialogs:** paper, about 1.6rem to 1.9rem corners. The walkthrough tops each step with a 14rem sheet-coloured picture and slides steps past like pages (260ms).
 
 ### Inputs / Fields
+
 - **Style:** paper fill, 1px ink-at-42% stroke, about 1.2rem corners, 3rem tall, 1rem text. Label above in 600-weight 0.875rem ink; hint below in soft ink.
 - **Focus:** the global 3px cobalt outline.
 - **Upload well:** 2px dashed ink-at-50% border, 1.6rem corners; border goes solid ink and the well takes the sky wash on hover, cobalt border while dragging. Progress is a 0.5rem cobalt bar.
 - **Error:** brick text on a 10% brick wash, rounded, under the fields.
 
 ### Navigation
+
 - **Index tabs (journal):** one per chapter in that chapter's sheet colour with a 2px ink border. From 1024px they stick out of the right edge, flat on the outside, with the print shadow; the current one turns ink and pulls further out, others slide out slightly on hover. Below 1024px they become a horizontally scrolling strip on an ink bar along the bottom, with a paper ring on the current one. The mixtape tab is ink with butter text and border. They appear only once the cover is open and hide while the reader is up.
 - **Desk tabs:** a lilac-wash tray (pill from 640px, wrapping below) holding 2.75rem pills; the active one is ink with paper text.
 
 ### Book Cover
+
 Bookcloth in the child's colour: two directions of stretched noise overlaid as warp and weft. A darker spine strip down the left edge is sewn with slightly uneven stitches in cream with an ink shadow thread. A round window with a deep-shade rim and an inset shadow holds the cover photo. The name is stamped below in Caprasimo, the birth date in hand, then the one action. Closed, the page block shows as fine ruled edges along the fore-edge and tail.
 
 ### Cover Opening
+
 The journal's first screen. A 210svh scroll track pins the viewport while the cover rotates on its left edge from 0 to -96 degrees under 2400px perspective; the nameplate page on its dotted endpaper is uncovered beneath as an ink shade lifts. The button drives the same scroll over 1.15s.
 
 ### Reader
+
 Opening a print lifts that same image off the sheet (shared layout) onto a 97% ink backdrop, framed by a thick paper ring with the lifted shadow. Caption in hand, story in grotesk, date line in butter. Arrow keys step, Escape closes, focus returns to the print.
 
 ### Cassette
+
 A 1.38:1 body in one of the five tones, a paper label with the title in hand, and an ink window with two reels that spin while that song plays. The selected tape takes a butter outline.
 
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** set every piece of text in `ink`, or in the foreground paired with its cloth: cream on tomato, cobalt, leaf and plum, ink on marigold.
 - **Do** give each chapter the next sheet in the order sky, butter, rose, mint, lilac, and cut it from the one above with the pinked edge.
 - **Do** tilt anything lying on a sheet between 1.2 and 3.6 degrees, seeded from its id so server and client agree.
@@ -338,6 +361,7 @@ A 1.38:1 body in one of the five tones, a paper label with the title in hand, an
 - **Do** honour reduced motion with a fully laid-out, still page.
 
 ### Don't:
+
 - **Don't** use grey or black for text, borders or shadows. Use ink or a transparency of it.
 - **Don't** lay entries out as an equal-card photo grid. Spans follow what the entry is and how full the sheet is.
 - **Don't** put the whole product on cream paper. Paper is for prints, slips and the desk; the journal's pages are coloured.

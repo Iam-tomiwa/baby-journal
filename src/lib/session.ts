@@ -1,7 +1,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { hasPasscode, isDemo } from "./env";
+import { hasDatabase, hasPasscode } from "./env";
 
 const COOKIE = "journal_parent";
 const THIRTY_DAYS = 60 * 60 * 24 * 30;
@@ -54,11 +54,11 @@ export async function isParent(): Promise<boolean> {
   }
 }
 
-export type DeskAccess = "demo" | "needs-setup" | "locked" | "open";
+export type DeskAccess = "no-database" | "needs-setup" | "locked" | "open";
 
 /** What the parents' desk should show for this request. */
 export async function deskAccess(): Promise<DeskAccess> {
-  if (isDemo) return "demo";
+  if (!hasDatabase) return "no-database";
   if (!hasPasscode) return "needs-setup";
   return (await isParent()) ? "open" : "locked";
 }

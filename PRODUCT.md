@@ -34,7 +34,7 @@ It is a book per child, read by age, rather than a photo feed or a shared album.
 - Entry types: photo, video, milestone, written note, song. No growth measurements and no parent-chosen stickers (declined by the owner).
 - Up to 12 photos or videos can be added in one pass; each is its own memory with its own caption, sharing one date.
 - Media is uploaded straight from the browser to Cloudinary with a signed request; the database stores only the delivery URL and dimensions.
-- Without `DATABASE_URL` the app runs as a read-only sample journal so the design can be seen before keys exist.
+- A static sample journal lives at `/demo`. The shelf shows only real journals, with an empty state before the first one.
 - Editing an existing entry is not built yet; entries can be removed and re-added.
 
 ## Brand Commitments
@@ -45,7 +45,7 @@ It is a book per child, read by age, rather than a photo feed or a shared album.
 
 ## Evidence on Hand
 
-No real family content yet. The sample journal uses stock photographs from Unsplash and one Cloudinary demo video, labelled as a sample; the names and captions in it are invented.
+No real family content yet. The sample journal at `/demo` uses stock photographs from Unsplash and one Cloudinary demo video, labelled as a sample; the names and captions in it are invented.
 
 ## Product Principles
 

@@ -230,7 +230,7 @@
     /* Finer thread on small covers (shelf, previews), full size on the open window. */
     background-size: clamp(80px, 55cqi, 240px);
     mix-blend-mode: overlay;
-    opacity: 0.8;
+    opacity: 0.5;
     pointer-events: none;
   }
 
@@ -314,6 +314,24 @@ html[data-reader] nav[aria-label="Chapters"] {
 @container (max-width: 9rem) {
   .bookcloth::before {
     opacity: 0.22;
+  }
+}
+
+/* Two quick beats, then a rest. */
+@keyframes heartbeat {
+  0%,
+  40%,
+  100% {
+    scale: 1;
+  }
+  10% {
+    scale: 1.28;
+  }
+  20% {
+    scale: 1.05;
+  }
+  30% {
+    scale: 1.22;
   }
 }
 

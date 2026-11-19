@@ -6,7 +6,7 @@ import { updateTag } from "next/cache";
 import { z } from "zod";
 import { db, schema } from "@/db";
 import { JOURNAL_TAG } from "@/lib/data";
-import { hasCloudinary, isDemo } from "@/lib/env";
+import { hasCloudinary, hasDatabase } from "@/lib/env";
 import {
   endParentSession,
   isParent,
@@ -16,8 +16,8 @@ import {
 import { oembedUrl, parseSongUrl } from "@/lib/songs";
 import { COVER_COLORS, type ActionState } from "@/lib/types";
 
-const DEMO_MESSAGE =
-  "This is the sample journal. Add DATABASE_URL and the Cloudinary keys to .env.local to start saving.";
+const NO_DATABASE_MESSAGE =
+  "The database isn't connected yet. Add DATABASE_URL to .env.local and restart to start saving.";
 const LOCKED_MESSAGE =
   "Your parent session has ended. Enter the passcode again.";
 const UPLOAD_FOLDER = "baby-journal";
@@ -27,7 +27,7 @@ const done = (message: string): ActionState => ({ ok: true, message });
 
 /** Every write goes through this: no database, or no parent session, means no write. */
 async function guard(): Promise<ActionState> {
-  if (isDemo) return fail(DEMO_MESSAGE);
+  if (!hasDatabase) return fail(NO_DATABASE_MESSAGE);
   if (!(await isParent())) return fail(LOCKED_MESSAGE);
   return null;
 }
@@ -358,7 +358,7 @@ function slugify(name: string): string {
   );
 }
 
-const RESERVED = new Set(["parents", "api", "_next"]);
+const RESERVED = new Set(["parents", "demo", "api", "_next"]);
 
 export async function createChild(
   _prev: ActionState,
