@@ -8,11 +8,11 @@ import { db, schema } from "@/db";
 import { JOURNAL_TAG } from "@/lib/data";
 import { hasCloudinary, hasDatabase } from "@/lib/env";
 import {
-  endParentSession,
-  isParent,
+  MIN_PASSCODE_LENGTH,
   passcodeMatches,
-  startParentSession,
-} from "@/lib/session";
+  setPasscode,
+} from "@/lib/passcode";
+import { endParentSession, isParent, startParentSession } from "@/lib/session";
 import { oembedUrl, parseSongUrl } from "@/lib/songs";
 import { COVER_COLORS, type ActionState } from "@/lib/types";
 
@@ -65,7 +65,7 @@ export async function unlock(
   formData: FormData,
 ): Promise<ActionState> {
   const attempt = String(formData.get("passcode") ?? "");
-  if (!passcodeMatches(attempt)) {
+  if (!(await passcodeMatches(attempt))) {
     // Slow down guessing a little.
     await new Promise((resolve) => setTimeout(resolve, 700));
     return fail(
@@ -78,6 +78,54 @@ export async function unlock(
 
 export async function lock(): Promise<void> {
   await endParentSession();
+}
+
+const passcodeSchema = z
+  .object({
+    current: z.string().min(1, "Enter the passcode you use now."),
+    next: z
+      .string()
+      .min(
+        MIN_PASSCODE_LENGTH,
+        `Make the new passcode at least ${MIN_PASSCODE_LENGTH} characters.`,
+      )
+      .max(100, "Keep the new passcode under 100 characters."),
+    confirm: z.string(),
+  })
+  .refine((v) => v.next === v.confirm, "The two new passcodes don't match.")
+  .refine(
+    (v) => v.next !== v.current,
+    "The new passcode is the same as the current one.",
+  );
+
+/**
+ * Replaces the parent passcode. Every other signed-in device is signed out;
+ * this one gets a fresh session so the parent can carry on.
+ */
+export async function changePasscode(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const blocked = await guard();
+  if (blocked) return blocked;
+
+  const parsed = passcodeSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return firstIssue(parsed.error);
+
+  if (!(await passcodeMatches(parsed.data.current))) {
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    return fail("The current passcode isn't right.");
+  }
+
+  try {
+    await setPasscode(parsed.data.next);
+  } catch {
+    return fail(
+      "The passcode couldn't be saved. Run `pnpm db:push` to create the settings table, then try again.",
+    );
+  }
+  await startParentSession();
+  return done("Passcode changed. Other devices will need the new one.");
 }
 
 // ----------------------------------------------------------------- upload
@@ -433,4 +481,78 @@ export async function createChild(
     .values({ ...input, slug });
   updateTag(JOURNAL_TAG);
   return done(`${input.name}'s journal is on the shelf.`);
+}
+
+/** Splits a list into runs of at most `size`, the most Cloudinary deletes per request. */
+function chunks<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size)
+    out.push(items.slice(i, i + size));
+  return out;
+}
+
+/**
+ * Deletes a child's whole journal: every memory, the mixtape, and the photos,
+ * videos and recordings stored for them. The parent must type the child's
+ * name, which the confirmation dialog asks for.
+ */
+export async function deleteChild(
+  id: string,
+  typedName: string,
+): Promise<ActionState> {
+  const blocked = await guard();
+  if (blocked) return blocked;
+  if (!z.uuid().safeParse(id).success)
+    return fail("That journal no longer exists.");
+
+  const [child] = await db()
+    .select()
+    .from(schema.children)
+    .where(eq(schema.children.id, id))
+    .limit(1);
+  if (!child) return fail("That journal no longer exists.");
+  if (typedName.trim().toLowerCase() !== child.name.trim().toLowerCase()) {
+    return fail(`Type "${child.name}" exactly to confirm.`);
+  }
+
+  // Note what is stored for this journal before its rows are gone.
+  const [memoryRows, songRows] = await Promise.all([
+    db().select().from(schema.memories).where(eq(schema.memories.childId, id)),
+    db().select().from(schema.songs).where(eq(schema.songs.childId, id)),
+  ]);
+  const images = memoryRows.flatMap((m) =>
+    m.mediaPublicId && m.mediaType !== "video" ? [m.mediaPublicId] : [],
+  );
+  const videos = memoryRows.flatMap((m) =>
+    m.mediaPublicId && m.mediaType === "video" ? [m.mediaPublicId] : [],
+  );
+  const ours = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`;
+  const recordings = songRows.flatMap((song) => {
+    const embed = parseSongUrl(song.url);
+    if (embed?.provider !== "audio" || !embed.embedUrl.startsWith(ours))
+      return [];
+    const publicId = embed.embedUrl.match(
+      /\/upload\/(?:v\d+\/)?(.+)\.[a-z0-9]+$/i,
+    )?.[1];
+    return publicId ? [publicId] : [];
+  });
+
+  // Memories and songs go with the child (ON DELETE CASCADE).
+  await db().delete(schema.children).where(eq(schema.children.id, id));
+
+  if (hasCloudinary) {
+    configureCloudinary();
+    // The journal is already gone; a failed cleanup only leaves unused files behind.
+    await Promise.all([
+      ...chunks(images, 100).map((ids) =>
+        cloudinary.api.delete_resources(ids, { resource_type: "image" }),
+      ),
+      ...chunks([...videos, ...recordings], 100).map((ids) =>
+        cloudinary.api.delete_resources(ids, { resource_type: "video" }),
+      ),
+    ]).catch(() => undefined);
+  }
+
+  updateTag(JOURNAL_TAG);
+  return done(`${child.name}'s journal was deleted.`);
 }

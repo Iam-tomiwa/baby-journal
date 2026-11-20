@@ -7,4 +7,5 @@ export const hasCloudinary = Boolean(
   process.env.CLOUDINARY_API_SECRET,
 );
 
-export const hasPasscode = Boolean(process.env.PARENT_PASSCODE);
+/** Whether a starting passcode is set in the environment. One changed in the app lives in the database. */
+export const hasEnvPasscode = Boolean(process.env.PARENT_PASSCODE);

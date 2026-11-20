@@ -5,6 +5,10 @@ import { Suspense } from "react";
 import { lock } from "@/app/actions";
 import { Desk } from "@/components/parents/desk";
 import { EntryList } from "@/components/parents/entry-list";
+import {
+  ChangePasscodeForm,
+  JournalManager,
+} from "@/components/parents/manage";
 import { PasscodeForm } from "@/components/parents/passcode-form";
 import { Walkthrough } from "@/components/parents/walkthrough";
 import { chapterKeys } from "@/lib/chapters";
@@ -149,6 +153,31 @@ async function DeskContents() {
           childrenById={childrenById}
         />
       </section>
+
+      {access === "open" ? (
+        <>
+          <section aria-labelledby="journals-title" className="mt-20 max-w-3xl">
+            <h2 id="journals-title" className="text-xl font-semibold text-ink">
+              Journals
+            </h2>
+            <p className="mb-5 mt-1 text-base text-ink-soft">
+              Deleting a journal removes everything in it for good.
+            </p>
+            <JournalManager journals={children} />
+          </section>
+
+          <section aria-labelledby="passcode-title" className="mt-20 max-w-3xl">
+            <h2 id="passcode-title" className="text-xl font-semibold text-ink">
+              Parent passcode
+            </h2>
+            <p className="mb-5 mt-1 max-w-[60ch] text-base text-ink-soft">
+              Changing it signs out every other phone and computer. Share the
+              new one with whoever else adds to the journals.
+            </p>
+            <ChangePasscodeForm />
+          </section>
+        </>
+      ) : null}
     </>
   );
 }

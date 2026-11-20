@@ -61,6 +61,14 @@ The journal can be installed to a phone's home screen or a desktop dock.
 
 Animations use `transform` and `opacity` only, load the Motion feature bundle lazily (`LazyMotion`), and respect the reduced-motion system setting: the cover becomes a static first screen and entries fade in without movement.
 
+## Passcode and deleting journals
+
+Both are at the bottom of the parents' desk.
+
+- **Parent passcode.** `PARENT_PASSCODE` in the environment is the starting passcode. Changing it in the app stores a salted scrypt hash in the `settings` table, which then takes over; the environment value is ignored from then on. Every other signed-in device is signed out.
+- **Forgotten passcode.** Delete the `parent_passcode` row from the `settings` table (Neon console, SQL editor: `delete from settings where key = 'parent_passcode';`). The environment passcode works again.
+- **Deleting a journal** asks you to type the child's name, then removes the child, every memory and song, and their files on Cloudinary. It cannot be undone.
+
 ## Not built yet
 
 - Editing an entry (remove it and add it again).

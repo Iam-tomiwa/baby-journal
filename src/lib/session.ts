@@ -1,7 +1,7 @@
-import { createHash, timingSafeEqual } from "node:crypto";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { hasDatabase, hasPasscode } from "./env";
+import { hasDatabase } from "./env";
+import { hasPasscode, passcodeFingerprint } from "./passcode";
 
 const COOKIE = "journal_parent";
 const THIRTY_DAYS = 60 * 60 * 24 * 30;
@@ -12,16 +12,12 @@ function secret(): Uint8Array {
   return new TextEncoder().encode(value);
 }
 
-const digest = (value: string) => createHash("sha256").update(value).digest();
-
-export function passcodeMatches(attempt: string): boolean {
-  const expected = process.env.PARENT_PASSCODE;
-  if (!expected) return false;
-  return timingSafeEqual(digest(attempt), digest(expected));
-}
-
 export async function startParentSession(): Promise<void> {
-  const token = await new SignJWT({ role: "parent" })
+  // `v` ties the session to the passcode it was opened with.
+  const token = await new SignJWT({
+    role: "parent",
+    v: await passcodeFingerprint(),
+  })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${THIRTY_DAYS}s`)
@@ -43,12 +39,15 @@ export async function endParentSession(): Promise<void> {
 /** True when this request carries a valid parent session. */
 export async function isParent(): Promise<boolean> {
   const token = (await cookies()).get(COOKIE)?.value;
-  if (!token || !hasPasscode) return false;
+  if (!token) return false;
   try {
     const { payload } = await jwtVerify(token, secret(), {
       algorithms: ["HS256"],
     });
-    return payload.role === "parent";
+    // A session opened before the passcode was changed no longer counts.
+    return (
+      payload.role === "parent" && payload.v === (await passcodeFingerprint())
+    );
   } catch {
     return false;
   }
@@ -59,6 +58,6 @@ export type DeskAccess = "no-database" | "needs-setup" | "locked" | "open";
 /** What the parents' desk should show for this request. */
 export async function deskAccess(): Promise<DeskAccess> {
   if (!hasDatabase) return "no-database";
-  if (!hasPasscode) return "needs-setup";
+  if (!(await hasPasscode())) return "needs-setup";
   return (await isParent()) ? "open" : "locked";
 }

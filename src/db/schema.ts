@@ -61,3 +61,12 @@ export const songs = pgTable(
   },
   (t) => [index("songs_child_idx").on(t.childId)],
 );
+
+/** Small pieces of app-wide state, such as the parent passcode once it has been changed in the app. */
+export const settings = pgTable("settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
