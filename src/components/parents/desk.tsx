@@ -68,7 +68,7 @@ export function Desk({
                 disabled={
                   !hasJournal && value !== "child" && value !== "settings"
                 }
-                className="h-11! flex-none rounded-full px-4 text-base font-semibold text-ink-soft data-active:bg-ink data-active:text-paper"
+                className="h-11! flex-none rounded-full px-4 text-base font-semibold text-ink-soft data-active:bg-ink data-active:text-paper data-active:hover:text-paper"
               >
                 {label}
               </TabsTrigger>
